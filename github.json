@@ -1,0 +1,5009 @@
+{
+  "name": "github",
+  "nodes": [
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Search Topic: {{ $json['Search Topic'] }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=# Overview\nYou are a research assistant AI designed to generate five highly relevant and in-depth search topics based on a given search topic. Your goal is to break down the provided search topic into five key subtopics that will enable deep research and comprehensive understanding.\n\n## Instructions:\n1) Break Down the Topic: Identify five distinct yet interconnected subtopics that, when researched, will provide a well-rounded understanding of the main search topic.\n2) Ensure Depth and Relevance: Each search topic should be specific enough to allow deep exploration but broad enough to provide meaningful insights.\n3) Avoid Redundancy: The five search topics should be unique and cover different facets of the main topic.\n\n## Output Format (JSON):\n{\n  \"topic_1\": \"<First in-depth search topic>\",\n  \"topic_2\": \"<Second in-depth search topic>\",\n  \"topic_3\": \"<Third in-depth search topic>\",\n  \"topic_4\": \"<Fourth in-depth search topic>\",\n  \"topic_5\": \"<Fifth in-depth search topic>\"\n}\n\n## Example Input & Output:\nInput:\n\"AI-Powered Business Automation\"\n\nOutput\n{\n  \"topic_1\": \"The Role of AI in Automating Business Processes\",\n  \"topic_2\": \"AI-Driven Workflow Automation: Tools and Technologies\",\n  \"topic_3\": \"Challenges and Ethical Considerations in AI Automation\",\n  \"topic_4\": \"Case Studies: Successful AI Implementations in Business Automation\",\n  \"topic_5\": \"The Future of AI Automation: Trends and Emerging Innovations\"\n}\n\n## Final Notes\nYour responses should be concise, relevant, and well-structured to guide in-depth research effectively."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.8,
+      "position": [
+        0,
+        1260
+      ],
+      "id": "c64427eb-dc63-44dc-aaf4-c6a2ac475f8a",
+      "name": "Plan Topics"
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"topic_1\": \"Understanding AI Agents\",\n  \"topic_2\": \"Building AI Agents with n8n\",\n  \"topic_3\": \"Optimizing Prompt Engineering\",\n  \"topic_4\": \"Storing and Retrieving AI Knowledge\",\n  \"topic_5\": \"Scaling AI Automation for Businesses\"\n}\n"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        180,
+        1500
+      ],
+      "id": "5a6fa6a4-6754-4274-917e-b71ab7325b96",
+      "name": "5 Topics"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Search Topic: {{ $('On form submission').item.json['Search Topic'] }}\n\nTopics: \n1) {{ $('Plan Topics').item.json.output.topic_1 }}\n2) {{ $('Plan Topics').item.json.output.topic_2 }}\n3) {{ $('Plan Topics').item.json.output.topic_3 }}\n4) {{ $('Plan Topics').item.json.output.topic_4 }}\n5) {{ $('Plan Topics').item.json.output.topic_5 }}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "=# Overview\nYou are a report title and introduction generator AI. Your task is to create a compelling title, a concise introduction, and five clear chapter headings for a research report based on a given main search topic and five subtopics.\n\n## Instructions:\n1) Title: Generate a clear and engaging title that reflects the overall theme of the report.\n2) Introduction: Write a short introduction (2 paragraphs) that provides context, explains the significance of the topic, and outlines what the report will cover. This section should start with a header called \"Introduction\".\n3)Table of Contents: At the end of the introduction, list the five sections of the report, each represented as a clearly formatted chapter title in <h2> headers.\n4) Chapter Titles: Ensure each chapter title is formatted as an <h2> header to make it visually distinct.\n\n## Styling:\n- Title: <h1> element, centered, styled with a professional dark blue color.\n- Introduction: Wrapped in a <div> with a light gray background (#f4f4f4) for contrast.\n- Paragraphs: Readable font size (16px), appropriate line height (1.6), and neutral text color (#333).\n- Horizontal Line (<hr>) should be used to separate the two introduction paragraphs.\n- Chapter Titles: Clearly formatted as <h2> elements for readability. Large font and \n\n## Output Format (JSON):\n\n{\n  \"title\": \"<Generated Report Title>\",\n  \"introduction\": \"<Generated Introduction>\",\n  \"chapter_1\": \"<h2>Chapter 1: [Title]</h2>\",\n  \"chapter_2\": \"<h2>Chapter 2: [Title]</h2>\",\n  \"chapter_3\": \"<h2>Chapter 3: [Title]</h2>\",\n  \"chapter_4\": \"<h2>Chapter 4: [Title]</h2>\",\n  \"chapter_5\": \"<h2>Chapter 5: [Title]</h2>\"\n}\n\n## Example Output:\n\n{\n  \"title\": \"<h1 style='text-align: center; color: #00366D;'>Vision and Vegetables: A Comprehensive Analysis of Carrots' Impact on Eye Health</h1>\",\n  \"introduction\": \"<div style='background-color: #f4f4f4; padding: 20px; font-size: 16px; line-height: 1.6; color: #333;'><h2>Introduction</h2><p>The relationship between carrots and vision has been a topic of both scientific interest and cultural folklore for generations. While the common parental advice 'eat your carrots, they're good for your eyes' has become deeply embedded in popular consciousness, the scientific reality behind this widely-held belief merits thorough investigation. This comprehensive report examines the multifaceted connection between carrot consumption and ocular health, exploring both the scientific evidence and historical perspectives that have shaped our understanding of this remarkable root vegetable's role in vision care.</p><hr><p>Through this analysis, we will explore the biochemical properties of carrots, the role of beta-carotene in eye health, and the scientific consensus on their effectiveness. Additionally, we will discuss historical influences and modern dietary recommendations. By the end of this report, readers will have a well-rounded understanding of the true impact of carrots on visual function.</p></div>\",\n  \"chapter_1\": \"<h2 style='text-align: center; color: #00366D;'>Chapter 1: The Biochemical Properties of Carrots</h2>\",\n  \"chapter_2\": \"<h2 style='text-align: center; color: #00366D;'>Chapter 2: The Role of Beta-Carotene in Eye Health</h2>\",\n  \"chapter_3\": \"<h2 style='text-align: center; color: #00366D;'>Chapter 3: Carrots and Night Vision: Myth or Reality?</h2>\",\n  \"chapter_4\": \"<h2 style='text-align: center; color: #00366D;'>Chapter 4: Historical Perspectives on Carrots and Vision</h2>\",\n  \"chapter_5\": \"<h2 style='text-align: center; color: #00366D;'>Chapter 5: Modern Dietary Recommendations for Eye Health</h2>\"\n}\n\n## Final Notes\nEnsure the title is professional, the introduction is engaging, and that each chapter title is formatted as an <h2> header for clarity and emphasis."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.8,
+      "position": [
+        400,
+        1260
+      ],
+      "id": "722b3f0d-404d-4ef8-904f-aca4f1cc6c09",
+      "name": "Intro"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "output",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        540,
+        1100
+      ],
+      "id": "9ed8fcbd-a678-4db6-ac22-55fa5ed69b93",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineAll",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [
+        1200,
+        1240
+      ],
+      "id": "bf48367b-769f-4a61-81aa-b7cae7f9a1ee",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "3da6558a-6372-44f9-8d5a-f18bfe6e1c16",
+              "name": "topics",
+              "value": "['topic_1','topic_2','topic_3','topic_4','topic_5']",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        540,
+        920
+      ],
+      "id": "c8212c65-5f2d-49d9-8d54-7648339ff10e",
+      "name": "Set Topics"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [
+        1000,
+        1080
+      ],
+      "id": "eb58ab0a-0228-43d2-a175-62775f22996b",
+      "name": "Merge1"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "topics",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        760,
+        920
+      ],
+      "id": "45674517-5345-4638-85fd-d5d5ebb84e97",
+      "name": "Split Out1"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.topics }}",
+                    "rightValue": "topic_1",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "7081a8b9-aa72-4841-8392-908e2387acf9"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "1b2472f8-0fb4-4812-bfd8-3a9417fab4a8",
+                    "leftValue": "={{ $json.topics }}",
+                    "rightValue": "topic_2",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "6d0dad77-6120-441a-ae74-55c18a550a8a",
+                    "leftValue": "={{ $json.topics }}",
+                    "rightValue": "topic_3",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "5aff824d-531d-4134-b2a6-f694e1c1f8bf",
+                    "leftValue": "={{ $json.topics }}",
+                    "rightValue": "topic_4",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "c80cc85a-2e2e-4cb2-9e62-dd8c4a48248d",
+                    "leftValue": "={{ $json.topics }}",
+                    "rightValue": "topic_5",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        1340,
+        1200
+      ],
+      "id": "122005b2-bdf8-43c4-bb7c-ff447524d597",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.tavily.com/search",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"query\": \"{{ $json.output }}\",\n  \"topic\": \"general\",\n  \"search_depth\": \"advanced\",\n  \"chunks_per_source\": 3,\n  \"max_results\": 5\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1800,
+        880
+      ],
+      "id": "8eef003c-f79b-40bb-a5af-0a0f1e55441f",
+      "name": "Tavily",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "mrGdkoYe5sqkidz9",
+          "name": "Tavily"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "results",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        2000,
+        880
+      ],
+      "id": "f018658d-9475-466e-a0cb-7324f9bbc479",
+      "name": "Split Out2"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Create separate items for each URL with a number\n\n// Transform the input items to create numbered URLs\nreturn items.map((item, index) => {\n  return {\n    json: {\n      number: index + 1,\n      url: item.json.url,\n      // Optional: include a formatted numbered URL if needed\n      numberedUrl: `${index + 1}. ${item.json.url}`\n    }\n  };\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2180,
+        880
+      ],
+      "id": "c22a35e5-cd21-4dbc-a82d-d77af7f52de8",
+      "name": "Code"
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "output"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        2720,
+        1120
+      ],
+      "id": "94fb2279-dc69-4d2e-a80f-dc4f673c3537",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Title: {{ $('Split Out2').item.json.title }}\n\nResearch: \n{{ $('Split Out2').item.json.content }}\n\nSource:\n{{ $json.numberedUrl }}\n\nStyle Guide Example:\n{{ $('Switch').item.json.introduction }}",
+        "options": {
+          "systemMessage": "=# Overview\nYou are an advanced AI research assistant specializing in writing professional HTML reports based on a provided title, research, source, and a given style guide. Your task is to generate a fully formatted HTML report that is both visually appealing and structured according to professional writing standards.\n\n## Report Generation Guidelines\n1. Adherence to Style Guide\n- The report must strictly follow the provided HTML style guide, ensuring consistent styling, colors, fonts, padding, and layout.\n\n2. Structure & Formatting\n- The report should be well-structured and formatted in professional HTML.\n- Title (<h1>) – Provided as \"Title\"\n- Content Body – Fully formatted research content with proper sectioning (<h2>, <h3>, <p>).\n- Each section should be wrapped in a div styled according to the provided guide to ensure consistency.\n- Use <p> for paragraphs, <ul>/<ol> for lists, and <hr> to separate sections when necessary.\n- No Overview or Conclusion headers are necessary, just output a full report.\n- Horizontal Line (<hr>) should be used to separate sections for better visual clarity.\n\n3. Research-Based Content\n- Synthesize information logically and ensure the report is well-researched, factual, and professionally written.\n- Use informative writing. Provide as much detail as possible.\n- Maintain a logical progression of ideas, summarizing key points effectively.\n\n4. Source Attribution & Clickable Links\n- Use the number given in front of the source as the clickable attribute in the report.\n- Source links must be inline within the text using: <a href=\"SOURCE_URL\" target=\"_blank\">[1]</a>\n- Do not include a \"References\" section—instead, all sources should be embedded within the content.\n\n## Precautions\nYou should follow the Report Generation Guidelines completely and only provide HTML code that is the same as the required example output. Do not provide output in other formats such as markdown. Strictly follow the Example Output Structure.\n\n## Example Output Structure (Applying Style Guide)\n<!DOCTYPE html>\n<html>\n<head>\n    <title>Research Report: [Title]</title>\n    <style>\n        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; }\n        h1, h2, h3 { color: #333; }\n        .report-section { background-color: #f4f4f4; padding: 20px; font-size: 16px; line-height: 1.6; color: #333; margin-bottom: 10px; }\n    </style>\n</head>\n<body>\n\n    <div class=\"report-section\">\n        <h1>Research Report: [Title]</h1>\n    </div>\n\n    <div class=\"report-section\">\n        <h2>Introduction</h2>\n        <p>The connection between carrots and vision health has long been a subject of both scientific inquiry and popular wisdom. \n        From wartime propaganda to modern nutritional science, these vibrant orange vegetables have maintained their reputation as \n        nature's answer to eye health maintenance.</p>\n        <hr>\n        <p>This report systematically explores five key aspects of the carrot-vision relationship, including their nutritional profile, \n        beta-carotene's role, scientific studies, and comparative benefits with other eye-healthy vegetables.</p>\n    </div>\n\n    <div class=\"report-section\">\n        <h2>Key Findings</h2>\n        <h3>Nutritional Composition</h3>\n        <p>Carrots contain high levels of vitamin A, antioxidants, and beta-carotene, which play a significant role in vision health \n        <a href=\"https://example.com\" target=\"_blank\">[1]</a>.</p>\n\n        <h3>Scientific Studies on Vision Benefits</h3>\n        <p>Recent studies have examined the link between carrot consumption and reduced risk of age-related eye diseases \n        <a href=\"https://example.com\" target=\"_blank\">[2]</a>.</p>\n    </div>\n\n    <div class=\"report-section\">\n        <h2>Conclusion</h2>\n        <p>Based on extensive research, carrots do contribute positively to vision health due to their high beta-carotene content. \n        However, their benefits should be seen as part of a balanced diet rather than a standalone solution.</p>\n    </div>\n\n</body>\n</html>"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.8,
+      "position": [
+        2120,
+        1120
+      ],
+      "id": "46522364-6521-49dc-9014-584224b3d4c7",
+      "name": "Writer"
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "numberedUrl"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        2720,
+        880
+      ],
+      "id": "a0da7268-f316-45a8-9b5f-cbb16b2e1c8b",
+      "name": "Aggregate1"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [
+        2900,
+        900
+      ],
+      "id": "b5da2c7e-4a9f-4fac-91eb-412393a20c6d",
+      "name": "Merge3"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.tavily.com/search",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"query\": \"{{ $json.output }}\",\n  \"topic\": \"general\",\n  \"search_depth\": \"advanced\",\n  \"chunks_per_source\": 3,\n  \"max_results\": 5\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1800,
+        1380
+      ],
+      "id": "cc4f1681-a2d2-4392-bb62-c1ff56cf05fb",
+      "name": "Tavily1",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "mrGdkoYe5sqkidz9",
+          "name": "Tavily"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "results",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        2000,
+        1380
+      ],
+      "id": "9e15b095-3096-484f-ac57-8d41db6ad488",
+      "name": "Split Out3"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Create separate items for each URL starting from number 6\n\n// Transform the input items to create numbered URLs\n// Start counting from 6 and increment by 1\nreturn items.map((item, index) => {\n  const number = index + 6; // Start at 6 instead of 1\n  \n  return {\n    json: {\n      number: number,\n      url: item.json.url,\n      numberedUrl: `${number}. ${item.json.url}`\n    }\n  };\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2200,
+        1380
+      ],
+      "id": "3ee5491d-9b5b-4b43-9922-ba296b2445bc",
+      "name": "Code1"
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "output"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        2720,
+        1620
+      ],
+      "id": "5418309a-9b61-41b6-9e87-03a1984afaee",
+      "name": "Aggregate2"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Title: {{ $('Split Out3').item.json.title }}\n\nResearch: \n{{ $('Split Out3').item.json.content }}\n\nSource:\n{{ $json.numberedUrl }}\n\nStyle Guide Example:\n{{ $('Switch').item.json.introduction }}",
+        "options": {
+          "systemMessage": "=# Overview\nYou are an advanced AI research assistant specializing in writing professional HTML reports based on a provided title, research, source, and a given style guide. Your task is to generate a fully formatted HTML report that is both visually appealing and structured according to professional writing standards.\n\n## Report Generation Guidelines\n1. Adherence to Style Guide\n- The report must strictly follow the provided HTML style guide, ensuring consistent styling, colors, fonts, padding, and layout.\n\n2. Structure & Formatting\n- The report should be well-structured and formatted in professional HTML.\n- Title (<h1>) – Provided as \"Title\"\n- Content Body – Fully formatted research content with proper sectioning (<h2>, <h3>, <p>).\n- Each section should be wrapped in a div styled according to the provided guide to ensure consistency.\n- Use <p> for paragraphs, <ul>/<ol> for lists, and <hr> to separate sections when necessary.\n- No Overview or Conclusion headers are necessary, just output a full report.\n- Horizontal Line (<hr>) should be used to separate sections for better visual clarity.\n\n3. Research-Based Content\n- Synthesize information logically and ensure the report is well-researched, factual, and professionally written.\n- Use informative writing. Provide as much detail as possible.\n- Maintain a logical progression of ideas, summarizing key points effectively.\n\n4. Source Attribution & Clickable Links\n- Use the number given in front of the source as the clickable attribute in the report.\n- Source links must be inline within the text using: <a href=\"SOURCE_URL\" target=\"_blank\">[1]</a>\n- Do not include a \"References\" section—instead, all sources should be embedded within the content.\n\n## Precautions\nYou should follow the Report Generation Guidelines completely and only provide HTML code that is the same as the required example output. Do not provide output in other formats such as markdown. Strictly follow the Example Output Structure.\n\n## Example Output Structure (Applying Style Guide)\n<!DOCTYPE html>\n<html>\n<head>\n    <title>Research Report: [Title]</title>\n    <style>\n        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; }\n        h1, h2, h3 { color: #333; }\n        .report-section { background-color: #f4f4f4; padding: 20px; font-size: 16px; line-height: 1.6; color: #333; margin-bottom: 10px; }\n    </style>\n</head>\n<body>\n\n    <div class=\"report-section\">\n        <h1>Research Report: [Title]</h1>\n    </div>\n\n    <div class=\"report-section\">\n        <h2>Introduction</h2>\n        <p>The connection between carrots and vision health has long been a subject of both scientific inquiry and popular wisdom. \n        From wartime propaganda to modern nutritional science, these vibrant orange vegetables have maintained their reputation as \n        nature's answer to eye health maintenance.</p>\n        <hr>\n        <p>This report systematically explores five key aspects of the carrot-vision relationship, including their nutritional profile, \n        beta-carotene's role, scientific studies, and comparative benefits with other eye-healthy vegetables.</p>\n    </div>\n\n    <div class=\"report-section\">\n        <h2>Key Findings</h2>\n        <h3>Nutritional Composition</h3>\n        <p>Carrots contain high levels of vitamin A, antioxidants, and beta-carotene, which play a significant role in vision health \n        <a href=\"https://example.com\" target=\"_blank\">[1]</a>.</p>\n\n        <h3>Scientific Studies on Vision Benefits</h3>\n        <p>Recent studies have examined the link between carrot consumption and reduced risk of age-related eye diseases \n        <a href=\"https://example.com\" target=\"_blank\">[2]</a>.</p>\n    </div>\n\n    <div class=\"report-section\">\n        <h2>Conclusion</h2>\n        <p>Based on extensive research, carrots do contribute positively to vision health due to their high beta-carotene content. \n        However, their benefits should be seen as part of a balanced diet rather than a standalone solution.</p>\n    </div>\n\n</body>\n</html>"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.8,
+      "position": [
+        2120,
+        1620
+      ],
+      "id": "401a6691-6387-4412-baba-8df01aa9d9f6",
+      "name": "Writer1"
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "numberedUrl"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        2720,
+        1380
+      ],
+      "id": "f1918725-70b6-4d46-bef9-8816a5cf7a69",
+      "name": "Aggregate3"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [
+        2900,
+        1400
+      ],
+      "id": "7e845db8-9fef-4721-ae78-347969e1dc91",
+      "name": "Merge4"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.tavily.com/search",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"query\": \"{{ $json.output }}\",\n  \"topic\": \"general\",\n  \"search_depth\": \"advanced\",\n  \"chunks_per_source\": 3,\n  \"max_results\": 5\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1800,
+        1900
+      ],
+      "id": "949da5c2-1dd6-4420-82c2-a0ff68606c44",
+      "name": "Tavily2",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "mrGdkoYe5sqkidz9",
+          "name": "Tavily"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "results",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        2000,
+        1900
+      ],
+      "id": "9a979205-e260-4685-92fa-2902beae9fda",
+      "name": "Split Out4"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Create separate items for each URL starting from number 6\n\n// Transform the input items to create numbered URLs\n// Start counting from 6 and increment by 1\nreturn items.map((item, index) => {\n  const number = index + 11; // Start at 6 instead of 1\n  \n  return {\n    json: {\n      number: number,\n      url: item.json.url,\n      numberedUrl: `${number}. ${item.json.url}`\n    }\n  };\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2200,
+        1900
+      ],
+      "id": "0443f5e6-7c73-443c-a233-2e912eef5a0e",
+      "name": "Code2"
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "output"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        2720,
+        2140
+      ],
+      "id": "3d58fbb9-f5a7-4c87-9314-1b3115d2dc88",
+      "name": "Aggregate4"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Title: {{ $('Split Out4').item.json.title }}\n\nResearch: \n{{ $('Split Out4').item.json.content }}\nSource:\n{{ $json.numberedUrl }}\n\nStyle Guide Example:\n{{ $('Switch').item.json.introduction }}",
+        "options": {
+          "systemMessage": "=# Overview\nYou are an advanced AI research assistant specializing in writing professional HTML reports based on a provided title, research, source, and a given style guide. Your task is to generate a fully formatted HTML report that is both visually appealing and structured according to professional writing standards.\n\n## Report Generation Guidelines\n1. Adherence to Style Guide\n- The report must strictly follow the provided HTML style guide, ensuring consistent styling, colors, fonts, padding, and layout.\n\n2. Structure & Formatting\n- The report should be well-structured and formatted in professional HTML.\n- Title (<h1>) – Provided as \"Title\"\n- Content Body – Fully formatted research content with proper sectioning (<h2>, <h3>, <p>).\n- Each section should be wrapped in a div styled according to the provided guide to ensure consistency.\n- Use <p> for paragraphs, <ul>/<ol> for lists, and <hr> to separate sections when necessary.\n- No Overview or Conclusion headers are necessary, just output a full report.\n- Horizontal Line (<hr>) should be used to separate sections for better visual clarity.\n\n3. Research-Based Content\n- Synthesize information logically and ensure the report is well-researched, factual, and professionally written.\n- Use informative writing. Provide as much detail as possible.\n- Maintain a logical progression of ideas, summarizing key points effectively.\n\n4. Source Attribution & Clickable Links\n- Use the number given in front of the source as the clickable attribute in the report.\n- Source links must be inline within the text using: <a href=\"SOURCE_URL\" target=\"_blank\">[1]</a>\n- Do not include a \"References\" section—instead, all sources should be embedded within the content.\n\n## Precautions\nYou should follow the Report Generation Guidelines completely and only provide HTML code that is the same as the required example output. Do not provide output in other formats such as markdown. Strictly follow the Example Output Structure.\n\n## Example Output Structure (Applying Style Guide)\n<!DOCTYPE html>\n<html>\n<head>\n    <title>Research Report: [Title]</title>\n    <style>\n        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; }\n        h1, h2, h3 { color: #333; }\n        .report-section { background-color: #f4f4f4; padding: 20px; font-size: 16px; line-height: 1.6; color: #333; margin-bottom: 10px; }\n    </style>\n</head>\n<body>\n\n    <div class=\"report-section\">\n        <h1>Research Report: [Title]</h1>\n    </div>\n\n    <div class=\"report-section\">\n        <h2>Introduction</h2>\n        <p>The connection between carrots and vision health has long been a subject of both scientific inquiry and popular wisdom. \n        From wartime propaganda to modern nutritional science, these vibrant orange vegetables have maintained their reputation as \n        nature's answer to eye health maintenance.</p>\n        <hr>\n        <p>This report systematically explores five key aspects of the carrot-vision relationship, including their nutritional profile, \n        beta-carotene's role, scientific studies, and comparative benefits with other eye-healthy vegetables.</p>\n    </div>\n\n    <div class=\"report-section\">\n        <h2>Key Findings</h2>\n        <h3>Nutritional Composition</h3>\n        <p>Carrots contain high levels of vitamin A, antioxidants, and beta-carotene, which play a significant role in vision health \n        <a href=\"https://example.com\" target=\"_blank\">[1]</a>.</p>\n\n        <h3>Scientific Studies on Vision Benefits</h3>\n        <p>Recent studies have examined the link between carrot consumption and reduced risk of age-related eye diseases \n        <a href=\"https://example.com\" target=\"_blank\">[2]</a>.</p>\n    </div>\n\n    <div class=\"report-section\">\n        <h2>Conclusion</h2>\n        <p>Based on extensive research, carrots do contribute positively to vision health due to their high beta-carotene content. \n        However, their benefits should be seen as part of a balanced diet rather than a standalone solution.</p>\n    </div>\n\n</body>\n</html>"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.8,
+      "position": [
+        2080,
+        2140
+      ],
+      "id": "acec5a3b-0439-415f-aab4-d6714237623e",
+      "name": "Writer2"
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "numberedUrl"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        2720,
+        1900
+      ],
+      "id": "925c8144-da25-4a56-b221-effcb409f7bf",
+      "name": "Aggregate5"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [
+        2900,
+        1920
+      ],
+      "id": "3fae37ab-7d6b-4b6c-8e76-f76d907063f4",
+      "name": "Merge5"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.tavily.com/search",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"query\": \"{{ $json.output }}\",\n  \"topic\": \"general\",\n  \"search_depth\": \"advanced\",\n  \"chunks_per_source\": 3,\n  \"max_results\": 5\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1800,
+        2400
+      ],
+      "id": "60931d49-4210-4e73-b4cc-6b70a70db999",
+      "name": "Tavily3",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "mrGdkoYe5sqkidz9",
+          "name": "Tavily"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "results",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        2000,
+        2400
+      ],
+      "id": "48fabafe-8ed7-44ed-a696-5933afdb32b0",
+      "name": "Split Out5"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Create separate items for each URL starting from number 6\n\n// Transform the input items to create numbered URLs\n// Start counting from 6 and increment by 1\nreturn items.map((item, index) => {\n  const number = index + 16; // Start at 6 instead of 1\n  \n  return {\n    json: {\n      number: number,\n      url: item.json.url,\n      numberedUrl: `${number}. ${item.json.url}`\n    }\n  };\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2200,
+        2400
+      ],
+      "id": "b1bf51c2-68c9-482b-8fa1-d60eede1b7dd",
+      "name": "Code3"
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "output"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        2720,
+        2640
+      ],
+      "id": "8295ddc1-8a39-4827-9453-199470db4dd1",
+      "name": "Aggregate6"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Title: {{ $('Split Out5').item.json.title }}\n\nResearch: \n{{ $('Split Out5').item.json.content }}\n\nSource:\n{{ $json.numberedUrl }}\n\nStyle Guide Example:\n{{ $('Switch').item.json.introduction }}",
+        "options": {
+          "systemMessage": "=# Overview\nYou are an advanced AI research assistant specializing in writing professional HTML reports based on a provided title, research, source, and a given style guide. Your task is to generate a fully formatted HTML report that is both visually appealing and structured according to professional writing standards.\n\n## Report Generation Guidelines\n1. Adherence to Style Guide\n- The report must strictly follow the provided HTML style guide, ensuring consistent styling, colors, fonts, padding, and layout.\n\n2. Structure & Formatting\n- The report should be well-structured and formatted in professional HTML.\n- Title (<h1>) – Provided as \"Title\"\n- Content Body – Fully formatted research content with proper sectioning (<h2>, <h3>, <p>).\n- Each section should be wrapped in a div styled according to the provided guide to ensure consistency.\n- Use <p> for paragraphs, <ul>/<ol> for lists, and <hr> to separate sections when necessary.\n- No Overview or Conclusion headers are necessary, just output a full report.\n- Horizontal Line (<hr>) should be used to separate sections for better visual clarity.\n\n3. Research-Based Content\n- Synthesize information logically and ensure the report is well-researched, factual, and professionally written.\n- Use informative writing. Provide as much detail as possible.\n- Maintain a logical progression of ideas, summarizing key points effectively.\n\n4. Source Attribution & Clickable Links\n- Use the number given in front of the source as the clickable attribute in the report.\n- Source links must be inline within the text using: <a href=\"SOURCE_URL\" target=\"_blank\">[1]</a>\n- Do not include a \"References\" section—instead, all sources should be embedded within the content.\n\n## Precautions\nYou should follow the Report Generation Guidelines completely and only provide HTML code that is the same as the required example output. Do not provide output in other formats such as markdown. Strictly follow the Example Output Structure.\n\n## Example Output Structure (Applying Style Guide)\n<!DOCTYPE html>\n<html>\n<head>\n    <title>Research Report: [Title]</title>\n    <style>\n        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; }\n        h1, h2, h3 { color: #333; }\n        .report-section { background-color: #f4f4f4; padding: 20px; font-size: 16px; line-height: 1.6; color: #333; margin-bottom: 10px; }\n    </style>\n</head>\n<body>\n\n    <div class=\"report-section\">\n        <h1>Research Report: [Title]</h1>\n    </div>\n\n    <div class=\"report-section\">\n        <h2>Introduction</h2>\n        <p>The connection between carrots and vision health has long been a subject of both scientific inquiry and popular wisdom. \n        From wartime propaganda to modern nutritional science, these vibrant orange vegetables have maintained their reputation as \n        nature's answer to eye health maintenance.</p>\n        <hr>\n        <p>This report systematically explores five key aspects of the carrot-vision relationship, including their nutritional profile, \n        beta-carotene's role, scientific studies, and comparative benefits with other eye-healthy vegetables.</p>\n    </div>\n\n    <div class=\"report-section\">\n        <h2>Key Findings</h2>\n        <h3>Nutritional Composition</h3>\n        <p>Carrots contain high levels of vitamin A, antioxidants, and beta-carotene, which play a significant role in vision health \n        <a href=\"https://example.com\" target=\"_blank\">[1]</a>.</p>\n\n        <h3>Scientific Studies on Vision Benefits</h3>\n        <p>Recent studies have examined the link between carrot consumption and reduced risk of age-related eye diseases \n        <a href=\"https://example.com\" target=\"_blank\">[2]</a>.</p>\n    </div>\n\n    <div class=\"report-section\">\n        <h2>Conclusion</h2>\n        <p>Based on extensive research, carrots do contribute positively to vision health due to their high beta-carotene content. \n        However, their benefits should be seen as part of a balanced diet rather than a standalone solution.</p>\n    </div>\n\n</body>\n</html>"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.8,
+      "position": [
+        2100,
+        2640
+      ],
+      "id": "de80b361-b080-4d1a-819a-e18462ee8963",
+      "name": "Writer3"
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "numberedUrl"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        2720,
+        2400
+      ],
+      "id": "d3d1c192-6004-4705-b577-977d2c74516b",
+      "name": "Aggregate7"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [
+        2900,
+        2420
+      ],
+      "id": "c6a0e538-1b9a-4ae6-8203-00e29424ca8d",
+      "name": "Merge6"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.tavily.com/search",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"query\": \"{{ $json.output }}\",\n  \"topic\": \"general\",\n  \"search_depth\": \"advanced\",\n  \"chunks_per_source\": 3,\n  \"max_results\": 5\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1800,
+        2900
+      ],
+      "id": "f97e1a8d-347b-4161-9cac-64b65c3e22a4",
+      "name": "Tavily4",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "mrGdkoYe5sqkidz9",
+          "name": "Tavily"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "results",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        2000,
+        2900
+      ],
+      "id": "dedbf0f9-50aa-4db0-8c06-1e01b0cf410d",
+      "name": "Split Out6"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Create separate items for each URL starting from number 6\n\n// Transform the input items to create numbered URLs\n// Start counting from 6 and increment by 1\nreturn items.map((item, index) => {\n  const number = index + 21; // Start at 6 instead of 1\n  \n  return {\n    json: {\n      number: number,\n      url: item.json.url,\n      numberedUrl: `${number}. ${item.json.url}`\n    }\n  };\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2200,
+        2900
+      ],
+      "id": "ebc9e539-d27f-4b0d-8bfa-0249eee1a937",
+      "name": "Code4"
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "output"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        2720,
+        3160
+      ],
+      "id": "6cdc889e-f8ba-4859-94aa-e3b3c74258f0",
+      "name": "Aggregate8"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Title: {{ $('Split Out6').item.json.title }}\n\nResearch: \n{{ $('Split Out6').item.json.content }}\n\nSource:\n{{ $json.numberedUrl }}\n\nStyle Guide Example:\n{{ $('Switch').item.json.introduction }}",
+        "options": {
+          "systemMessage": "=# Overview\nYou are an advanced AI research assistant specializing in writing professional HTML reports based on a provided title, research, source, and a given style guide. Your task is to generate a fully formatted HTML report that is both visually appealing and structured according to professional writing standards.\n\n## Report Generation Guidelines\n1. Adherence to Style Guide\n- The report must strictly follow the provided HTML style guide, ensuring consistent styling, colors, fonts, padding, and layout.\n\n2. Structure & Formatting\n- The report should be well-structured and formatted in professional HTML.\n- Title (<h1>) – Provided as \"Title\"\n- Content Body – Fully formatted research content with proper sectioning (<h2>, <h3>, <p>).\n- Each section should be wrapped in a div styled according to the provided guide to ensure consistency.\n- Use <p> for paragraphs, <ul>/<ol> for lists, and <hr> to separate sections when necessary.\n- No Overview or Conclusion headers are necessary, just output a full report.\n- Horizontal Line (<hr>) should be used to separate sections for better visual clarity.\n\n3. Research-Based Content\n- Synthesize information logically and ensure the report is well-researched, factual, and professionally written.\n- Use informative writing. Provide as much detail as possible.\n- Maintain a logical progression of ideas, summarizing key points effectively.\n\n4. Source Attribution & Clickable Links\n- Use the number given in front of the source as the clickable attribute in the report.\n- Source links must be inline within the text using: <a href=\"SOURCE_URL\" target=\"_blank\">[1]</a>\n- Do not include a \"References\" section—instead, all sources should be embedded within the content.\n\n## Precautions\nYou should follow the Report Generation Guidelines completely and only provide HTML code that is the same as the required example output. Do not provide output in other formats such as markdown. Strictly follow the Example Output Structure.\n\n## Example Output Structure (Applying Style Guide)\n<!DOCTYPE html>\n<html>\n<head>\n    <title>Research Report: [Title]</title>\n    <style>\n        body { font-family: Arial, sans-serif; line-height: 1.6; margin: 20px; }\n        h1, h2, h3 { color: #333; }\n        .report-section { background-color: #f4f4f4; padding: 20px; font-size: 16px; line-height: 1.6; color: #333; margin-bottom: 10px; }\n    </style>\n</head>\n<body>\n\n    <div class=\"report-section\">\n        <h1>Research Report: [Title]</h1>\n    </div>\n\n    <div class=\"report-section\">\n        <h2>Introduction</h2>\n        <p>The connection between carrots and vision health has long been a subject of both scientific inquiry and popular wisdom. \n        From wartime propaganda to modern nutritional science, these vibrant orange vegetables have maintained their reputation as \n        nature's answer to eye health maintenance.</p>\n        <hr>\n        <p>This report systematically explores five key aspects of the carrot-vision relationship, including their nutritional profile, \n        beta-carotene's role, scientific studies, and comparative benefits with other eye-healthy vegetables.</p>\n    </div>\n\n    <div class=\"report-section\">\n        <h2>Key Findings</h2>\n        <h3>Nutritional Composition</h3>\n        <p>Carrots contain high levels of vitamin A, antioxidants, and beta-carotene, which play a significant role in vision health \n        <a href=\"https://example.com\" target=\"_blank\">[1]</a>.</p>\n\n        <h3>Scientific Studies on Vision Benefits</h3>\n        <p>Recent studies have examined the link between carrot consumption and reduced risk of age-related eye diseases \n        <a href=\"https://example.com\" target=\"_blank\">[2]</a>.</p>\n    </div>\n\n    <div class=\"report-section\">\n        <h2>Conclusion</h2>\n        <p>Based on extensive research, carrots do contribute positively to vision health due to their high beta-carotene content. \n        However, their benefits should be seen as part of a balanced diet rather than a standalone solution.</p>\n    </div>\n\n</body>\n</html>"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.8,
+      "position": [
+        2160,
+        3160
+      ],
+      "id": "5c6e2f0f-c109-407e-ad54-78362df34616",
+      "name": "Writer4"
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "numberedUrl"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        2720,
+        2900
+      ],
+      "id": "d88ffa1e-4e67-420d-b4de-b5233597cc59",
+      "name": "Aggregate9"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [
+        2900,
+        2920
+      ],
+      "id": "fc27a878-4a3f-4a18-ae71-78b8d2a9503c",
+      "name": "Merge7"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        4120,
+        860
+      ],
+      "id": "075139f3-8ee3-4ed4-8d8e-c6fbcfcec7ca",
+      "name": "Limit"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Sources\n{{ $json.topic_1_sources }}\n{{ $json.topic_2_sources }}\n{{ $json.topic_3_sources }}\n{{ $json.topic_4_sources }}\n{{ $json.topic_5_sources }}",
+        "options": {
+          "systemMessage": "=# Overview\nYou are an AI assistant specializing in generating well-formatted HTML source sections for research reports. You will be given a list of sources, each with an associated number. Your task is to generate an HTML-formatted \"Sources\" section where:\n1) Each source is displayed with its original number in brackets [ ].\n2) Each source is a clickable hyperlink that opens in a new tab when clicked.\n3) The list is structured in an ordered format (<ul> or <ol>) for clarity and readability.\n\n## Formatting Guidelines:\n- The section title should be <h2>Sources</h2>.\n- Use an unordered list (<ul>) to display the sources.\n- Each source should be in the format:\n<li><a href=\"SOURCE_URL\" target=\"_blank\">[NUMBER] Source Title</a></li>\nThe original numbering of the sources must be preserved.\n\n## Example Output Structure:\n<div class=\"sources-section\">\n    <h2>Sources</h2>\n    <ul>\n        <li><a href=\"https://example1.com\" target=\"_blank\">[1] Research on AI Development</a></li>\n        <li><a href=\"https://example2.com\" target=\"_blank\">[2] The Impact of Automation</a></li>\n        <li><a href=\"https://example3.com\" target=\"_blank\">[3] Machine Learning Trends</a></li>\n    </ul>\n</div>"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.8,
+      "position": [
+        4520,
+        860
+      ],
+      "id": "8dd9d78b-b2f1-42f6-89f9-669d4f2c9880",
+      "name": "Sources"
+    },
+    {
+      "parameters": {
+        "numberInputs": 5
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3,
+      "position": [
+        3860,
+        920
+      ],
+      "id": "f5b0be1e-0191-40eb-bea2-1aa9a688b3aa",
+      "name": "Merge2"
+    },
+    {
+      "parameters": {
+        "operation": "extractHtmlContent",
+        "dataPropertyName": "output",
+        "extractionValues": {
+          "values": [
+            {
+              "key": "section",
+              "cssSelector": "title"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.html",
+      "typeVersion": 1.2,
+      "position": [
+        3060,
+        900
+      ],
+      "id": "beadeee8-1a1b-4a63-8b4f-1f80edde88ce",
+      "name": "HTML"
+    },
+    {
+      "parameters": {
+        "jsCode": "return [{\n  sections: $input.all().map(item => item.json.section)\n}];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3220,
+        900
+      ],
+      "id": "3ebe1c2a-e85a-47e2-8b37-9df6005c90b5",
+      "name": "Combine"
+    },
+    {
+      "parameters": {
+        "operation": "extractHtmlContent",
+        "dataPropertyName": "output",
+        "extractionValues": {
+          "values": [
+            {
+              "key": "section",
+              "cssSelector": "title"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.html",
+      "typeVersion": 1.2,
+      "position": [
+        3060,
+        1400
+      ],
+      "id": "79cd5573-e684-44bc-9c86-826f0fd15937",
+      "name": "HTML1"
+    },
+    {
+      "parameters": {
+        "jsCode": "return [{\n  sections: $input.all().map(item => item.json.section)\n}];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3220,
+        1400
+      ],
+      "id": "4623cd85-2be3-4e83-ab3d-3a91f580542c",
+      "name": "Combine1"
+    },
+    {
+      "parameters": {
+        "operation": "extractHtmlContent",
+        "dataPropertyName": "output",
+        "extractionValues": {
+          "values": [
+            {
+              "key": "section",
+              "cssSelector": "title"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.html",
+      "typeVersion": 1.2,
+      "position": [
+        3060,
+        1920
+      ],
+      "id": "b97db7b9-96e1-48dc-9e70-2bfdee6ea3dd",
+      "name": "HTML2"
+    },
+    {
+      "parameters": {
+        "jsCode": "return [{\n  sections: $input.all().map(item => item.json.section)\n}];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3220,
+        1920
+      ],
+      "id": "493cffac-4023-4d71-b581-cc5e550346fb",
+      "name": "Combine2"
+    },
+    {
+      "parameters": {
+        "operation": "extractHtmlContent",
+        "dataPropertyName": "output",
+        "extractionValues": {
+          "values": [
+            {
+              "key": "section",
+              "cssSelector": "title"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.html",
+      "typeVersion": 1.2,
+      "position": [
+        3060,
+        2420
+      ],
+      "id": "ee7b3777-5c95-4a94-82bc-b10b981e2328",
+      "name": "HTML3"
+    },
+    {
+      "parameters": {
+        "jsCode": "return [{\n  sections: $input.all().map(item => item.json.section)\n}];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3220,
+        2420
+      ],
+      "id": "5ecd55e4-76a4-41cb-ade7-8ab9f1cd0a0a",
+      "name": "Combine3"
+    },
+    {
+      "parameters": {
+        "operation": "extractHtmlContent",
+        "dataPropertyName": "output",
+        "extractionValues": {
+          "values": [
+            {
+              "key": "section",
+              "cssSelector": "title"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.html",
+      "typeVersion": 1.2,
+      "position": [
+        3060,
+        2920
+      ],
+      "id": "a927130e-d604-4d2d-8691-5cca2b23b259",
+      "name": "HTML4"
+    },
+    {
+      "parameters": {
+        "jsCode": "return [{\n  sections: $input.all().map(item => item.json.section)\n}];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3220,
+        2920
+      ],
+      "id": "a351875e-9972-4f4a-b51d-2cfd19e508a1",
+      "name": "Combine4"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Chapter 1: {{ $('Plan Topics').first().json.output.topic_1 }}\nSections:\n{{ $json.topic_1_sections }}\n\nChapter 2: {{ $('Plan Topics').first().json.output.topic_2 }}\nSections:\n{{ $json.topic_2_sections }}\n\nChapter 3: {{ $('Plan Topics').first().json.output.topic_3 }}\nSections:\n{{ $json.topic_3_sections }}\n\nChapter 4: {{ $('Plan Topics').first().json.output.topic_4 }}\nSections:\n{{ $json.topic_4_sections }}\n\nChapter 5: {{ $('Plan Topics').first().json.output.topic_5 }}\nSections:\n{{ $json.topic_5_sections }}\n\nStyle Guide:\n{{ $json.introduction }}",
+        "options": {
+          "systemMessage": "=# Overview\nYou are an AI assistant tasked with creating a structured Table of Contents (ToC) in professional HTML formatting for a research report. Your output must follow the provided style guide and be clean, readable, and well-structured.\n\n## Guidelines\n1) Format Chapters as <h2> Elements\n- Each chapter should be a distinct <h2> heading.\n2) Format Sections as an Ordered List (<ol>)\n- Each section under a chapter should be a list item (<li>) inside an <ol>.\n- Maintain clear hierarchy and indentation for readability.\n3) Apply Given Style Guide\n- Wrap the ToC in a <div> with the same padding, font size, and color as the style guide.\n- Add a horizontal rule (<hr>) for separation.\n\n## Precautions\nDo not provide anything other than code, such as:Here's the structured Table of Contents in professional HTML formatting following your style guide:\n\n## Example Output\n\n<div style=\"background-color: #f4f4f4; padding: 20px; font-size: 16px; line-height: 1.6; color: #333;\">\n    <h2>Table of Contents</h2>\n    <hr>\n    <ol>\n        <li>\n            <h2>Chapter 1: Introduction</h2>\n            <ol>\n                <li>Background and Importance</li>\n                <li>Research Goals</li>\n            </ol>\n        </li>\n        <li>\n            <h2>Chapter 2: Nutritional Science of Carrots</h2>\n            <ol>\n                <li>Vitamin A and Vision Health</li>\n                <li>Antioxidants in Carrots</li>\n                <li>Other Essential Nutrients</li>\n            </ol>\n        </li>\n    </ol>\n</div>"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.8,
+      "position": [
+        4080,
+        1120
+      ],
+      "id": "10c55dab-2d77-42cd-a3a5-eeadc4fe9aa9",
+      "name": "Table of Contents"
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n  \"title\": \"<Generated Report Title>\",\n  \"introduction\": \"<Generated Introduction>\",\n  \"chapter_1\": \"<h2>Chapter 1: [Title]</h2>\",\n  \"chapter_2\": \"<h2>Chapter 2: [Title]</h2>\",\n  \"chapter_3\": \"<h2>Chapter 3: [Title]</h2>\",\n  \"chapter_4\": \"<h2>Chapter 4: [Title]</h2>\",\n  \"chapter_5\": \"<h2>Chapter 5: [Title]</h2>\"\n}\n"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        580,
+        1500
+      ],
+      "id": "2df0bcd6-92c6-445b-899b-585b436e5587",
+      "name": "Title, Intro, Chapters"
+    },
+    {
+      "parameters": {
+        "content": "# 规划阶段\n",
+        "height": 1000,
+        "width": 1800,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -300,
+        780
+      ],
+      "id": "3f97c940-9ff5-44fa-ad25-d9f99e4d05e2",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "# 第一章\n",
+        "height": 500,
+        "width": 2140,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1540,
+        780
+      ],
+      "id": "17df0252-2316-4d19-a419-eac11d086c1c",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "# 第二章\n",
+        "height": 480,
+        "width": 2140
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1540,
+        1300
+      ],
+      "id": "c33fc26b-5d6a-47d1-8af3-e065e2e99f2a",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "# 第三章\n",
+        "height": 500,
+        "width": 2140,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1540,
+        1800
+      ],
+      "id": "3b01b6df-4c21-4260-8f4d-e586e1d34562",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "content": "# 第四章\n",
+        "height": 480,
+        "width": 2140
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1540,
+        2320
+      ],
+      "id": "05540edc-773c-4fe6-8815-3ecc4f464c76",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "content": "# 第五章\n",
+        "height": 500,
+        "width": 2140,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1540,
+        2820
+      ],
+      "id": "149665ec-c2ec-4b63-b88a-ce80fc4f43fe",
+      "name": "Sticky Note5"
+    },
+    {
+      "parameters": {
+        "content": "# 最终确定内容",
+        "height": 500,
+        "width": 2720,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        3700,
+        780
+      ],
+      "id": "199f5eec-854e-4362-924b-13721287709f",
+      "name": "Sticky Note6"
+    },
+    {
+      "parameters": {
+        "content": "# Generate PDF",
+        "height": 1340,
+        "width": 360,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        6440,
+        1980
+      ],
+      "id": "8b9ebe27-079e-4aca-ab78-4083c7444ef2",
+      "name": "Sticky Note7"
+    },
+    {
+      "parameters": {
+        "content": "## 🛠️ 设置指南\n\n**作者：** [Nate Herk](https://www.youtube.com/@nateherk)\n\n### 1️⃣ Mysql 表格模板\n- 复制mysql表格。\n- 重命名以匹配节点，或修改节点以链接到您的表格。\n\n### 2️⃣ Tavily API\n[🌐 Tavily](https://tavily.com/)\n- 注册并获取 API 密钥。\n- 在 **5 个 Tavily HTTP 请求节点** 中连接您的 API 密钥。\n- 添加此标头参数：Authorization: Bearer <your_token>\n\n### 3️⃣ API Template.io\n[🖨️ API Template.io](https://apitemplate.io/?via=eleanor&gad_source=1&gclid=Cj0KCQjw16O_BhDNARIsAC3i2GDBxOF8j_cmtcTke-dIcypdwLuGT2ijr4vDnR4U7vcMDeGBRoAJntkaAvYnEALw_wcB)\n- 获取 API 密钥。\n- 在生成 PDF 的 **HTTP 请求节点** 中连接您的帐户。\n\n### 4️⃣ OpenRouter\n[🤖 Deepseek](https://www.deepseek.com/)\n- 注册并获取 API 密钥。\n- 确保您的帐户中有足够的积分。",
+        "height": 600,
+        "width": 620
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -300,
+        140
+      ],
+      "id": "cd8d63f7-d594-4e38-a436-cec3e5d4fe01",
+      "name": "Sticky Note8"
+    },
+    {
+      "parameters": {
+        "content": "# Nate Herk | AI Automation\n# Ethan Change",
+        "height": 140,
+        "width": 500,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -300,
+        -20
+      ],
+      "typeVersion": 1,
+      "id": "c3e44cc5-72ca-4ebd-acc8-aa045a412d0e",
+      "name": "Sticky Note10"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatDeepSeek",
+      "typeVersion": 1,
+      "position": [
+        -40,
+        1460
+      ],
+      "id": "4a31b4ec-1143-4fc7-9b41-97f0ac922786",
+      "name": "DeepSeek Chat Model",
+      "credentials": {
+        "deepSeekApi": {
+          "id": "eEh2HVGNkSAq4XE9",
+          "name": "DeepSeek account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatDeepSeek",
+      "typeVersion": 1,
+      "position": [
+        380,
+        1480
+      ],
+      "id": "e8bed385-4116-4812-9ce6-5e291fc71867",
+      "name": "DeepSeek Chat Model1",
+      "credentials": {
+        "deepSeekApi": {
+          "id": "eEh2HVGNkSAq4XE9",
+          "name": "DeepSeek account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatDeepSeek",
+      "typeVersion": 1,
+      "position": [
+        1940,
+        1180
+      ],
+      "id": "facb38d4-9f77-488c-8ace-fc73e46e8b1a",
+      "name": "DeepSeek Chat Model2",
+      "credentials": {
+        "deepSeekApi": {
+          "id": "eEh2HVGNkSAq4XE9",
+          "name": "DeepSeek account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatDeepSeek",
+      "typeVersion": 1,
+      "position": [
+        1920,
+        1680
+      ],
+      "id": "ece86d95-2726-4374-9898-95e6e3a3c1cf",
+      "name": "DeepSeek Chat Model3",
+      "credentials": {
+        "deepSeekApi": {
+          "id": "eEh2HVGNkSAq4XE9",
+          "name": "DeepSeek account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatDeepSeek",
+      "typeVersion": 1,
+      "position": [
+        1920,
+        2200
+      ],
+      "id": "3c631eee-e0ee-4993-b9e1-8a7fb733314f",
+      "name": "DeepSeek Chat Model4",
+      "credentials": {
+        "deepSeekApi": {
+          "id": "eEh2HVGNkSAq4XE9",
+          "name": "DeepSeek account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatDeepSeek",
+      "typeVersion": 1,
+      "position": [
+        1920,
+        2700
+      ],
+      "id": "0097922a-1ceb-48c7-9be3-8b88515f12f4",
+      "name": "DeepSeek Chat Model5",
+      "credentials": {
+        "deepSeekApi": {
+          "id": "eEh2HVGNkSAq4XE9",
+          "name": "DeepSeek account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatDeepSeek",
+      "typeVersion": 1,
+      "position": [
+        1900,
+        3200
+      ],
+      "id": "81c51687-b65a-48f9-a5df-df228047b639",
+      "name": "DeepSeek Chat Model6",
+      "credentials": {
+        "deepSeekApi": {
+          "id": "eEh2HVGNkSAq4XE9",
+          "name": "DeepSeek account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatDeepSeek",
+      "typeVersion": 1,
+      "position": [
+        3940,
+        1180
+      ],
+      "id": "ad3f4771-da72-4e0c-9da5-bab513093232",
+      "name": "DeepSeek Chat Model7",
+      "credentials": {
+        "deepSeekApi": {
+          "id": "eEh2HVGNkSAq4XE9",
+          "name": "DeepSeek account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "formTitle": "The Deepest Research",
+        "formDescription": "Enter a search topic then sit back and relax.",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Search Topic",
+              "placeholder": "Search Topic",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Email",
+              "placeholder": "name@example.com",
+              "requiredField": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.2,
+      "position": [
+        -280,
+        1260
+      ],
+      "id": "f59cca85-e7dd-4ea2-8a7e-8ab4b4429d6a",
+      "name": "On form submission",
+      "webhookId": "5be604b3-2147-454f-9111-3b2b15120cc7"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -820,
+        1660
+      ],
+      "id": "6997aae3-98b2-4968-84b1-ba02e2460b7e",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "table": {
+          "__rl": true,
+          "value": "deep_research",
+          "mode": "list",
+          "cachedResultName": "deep_research"
+        },
+        "dataMode": "defineBelow",
+        "valuesToSend": {
+          "values": [
+            {
+              "column": "=search_topic",
+              "value": "={{ $('On form submission').item.json['Search Topic'] }}"
+            },
+            {
+              "column": "title",
+              "value": "={{ $json.output.title }}"
+            },
+            {
+              "column": "introduction",
+              "value": "={{ $json.output.introduction }}"
+            },
+            {
+              "column": "chapter_1",
+              "value": "={{ $json.output.chapter_1 }}"
+            },
+            {
+              "column": "chapter_2",
+              "value": "={{ $json.output.chapter_2 }}"
+            },
+            {
+              "column": "chapter_3",
+              "value": "={{ $json.output.chapter_3 }}"
+            },
+            {
+              "column": "chapter_4",
+              "value": "={{ $json.output.chapter_4 }}"
+            },
+            {
+              "column": "chapter_5",
+              "value": "={{ $json.output.chapter_5 }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.4,
+      "position": [
+        740,
+        1260
+      ],
+      "id": "387b5af4-3830-4f82-bf41-0008055b2ceb",
+      "name": "Send Intro",
+      "credentials": {
+        "mySql": {
+          "id": "CDN1QJcyWrFEnXl1",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "select search_topic, title, introduction, chapter_1, chapter_2, chapter_3, chapter_4, chapter_5 from deep_research where search_topic = '{{ $('On form submission').item.json['Search Topic'] }}';",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.4,
+      "position": [
+        920,
+        1260
+      ],
+      "id": "fb4f8eb6-b9a8-465f-a41d-71ec0f3bdbeb",
+      "name": "MySQL",
+      "credentials": {
+        "mySql": {
+          "id": "CDN1QJcyWrFEnXl1",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "table": {
+          "__rl": true,
+          "value": "deep_research",
+          "mode": "list",
+          "cachedResultName": "deep_research"
+        },
+        "dataMode": "defineBelow",
+        "columnToMatchOn": "search_topic",
+        "valueToMatchOn": "={{ $('On form submission').first().json['Search Topic'] }}",
+        "valuesToSend": {
+          "values": [
+            {
+              "column": "topic_1_sources",
+              "value": "={{ $('Merge3').first().json.numberedUrl.join(\"\\n\") }}"
+            },
+            {
+              "column": "topic_1_sections",
+              "value": "={{ $json.sections.join(\"\\n\") }}"
+            },
+            {
+              "column": "topic_1_content",
+              "value": "={{ $('Merge3').first().json.output.join(\"\\n \\n\") }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.4,
+      "position": [
+        3380,
+        900
+      ],
+      "id": "5d2f6fd6-301d-417a-944e-5cf0d1990d2f",
+      "name": "Mysql1",
+      "credentials": {
+        "mySql": {
+          "id": "CDN1QJcyWrFEnXl1",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "table": {
+          "__rl": true,
+          "value": "deep_research",
+          "mode": "list",
+          "cachedResultName": "deep_research"
+        },
+        "dataMode": "defineBelow",
+        "columnToMatchOn": "search_topic",
+        "valueToMatchOn": "={{ $('On form submission').first().json['Search Topic'] }}",
+        "valuesToSend": {
+          "values": [
+            {
+              "column": "topic_3_sources",
+              "value": "={{ $('Merge5').first().json.numberedUrl.join(\"\\n\") }}"
+            },
+            {
+              "column": "topic_3_sections",
+              "value": "={{ $json.sections.join(\"\\n\") }}"
+            },
+            {
+              "column": "topic_3_content",
+              "value": "={{ $('Merge5').first().json.output.join(\"\\n \\n\") }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.4,
+      "position": [
+        3380,
+        1920
+      ],
+      "id": "74bfba03-c435-48aa-9db9-0ca4ca4e4534",
+      "name": "Mysql2",
+      "credentials": {
+        "mySql": {
+          "id": "CDN1QJcyWrFEnXl1",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "table": {
+          "__rl": true,
+          "value": "deep_research",
+          "mode": "list",
+          "cachedResultName": "deep_research"
+        },
+        "dataMode": "defineBelow",
+        "columnToMatchOn": "search_topic",
+        "valueToMatchOn": "={{ $('On form submission').first().json['Search Topic'] }}",
+        "valuesToSend": {
+          "values": [
+            {
+              "column": "topic_4_sources",
+              "value": "={{ $('Merge6').first().json.numberedUrl.join(\"\\n\") }}"
+            },
+            {
+              "column": "topic_4_sections",
+              "value": "={{ $json.sections.join(\"\\n\") }}"
+            },
+            {
+              "column": "topic_4_content",
+              "value": "={{ $('Merge6').first().json.output.join(\"\\n \\n\") }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.4,
+      "position": [
+        3380,
+        2420
+      ],
+      "id": "608a15b8-3960-4fcb-8826-a7976c006bb1",
+      "name": "Mysql3",
+      "credentials": {
+        "mySql": {
+          "id": "CDN1QJcyWrFEnXl1",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "table": {
+          "__rl": true,
+          "value": "deep_research",
+          "mode": "list",
+          "cachedResultName": "deep_research"
+        },
+        "dataMode": "defineBelow",
+        "columnToMatchOn": "search_topic",
+        "valueToMatchOn": "={{ $('On form submission').first().json['Search Topic'] }}",
+        "valuesToSend": {
+          "values": [
+            {
+              "column": "topic_5_sources",
+              "value": "={{ $('Merge7').first().json.numberedUrl.join(\"\\n\") }}"
+            },
+            {
+              "column": "topic_5_sections",
+              "value": "={{ $json.sections.join(\"\\n\") }}"
+            },
+            {
+              "column": "topic_5_content",
+              "value": "={{ $('Merge7').first().json.output.join(\"\\n \\n\") }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.4,
+      "position": [
+        3380,
+        2920
+      ],
+      "id": "544e1586-7a25-46ba-9199-da2a9250cf6f",
+      "name": "Mysql4",
+      "credentials": {
+        "mySql": {
+          "id": "CDN1QJcyWrFEnXl1",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "select search_topic,topic_1_sources,topic_1_sections,topic_1_content from deep_research where search_topic = '{{ $('On form submission').first().json['Search Topic'] }}';",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.4,
+      "position": [
+        3560,
+        900
+      ],
+      "id": "815715a2-f0c9-4e44-887e-4913ddd7db84",
+      "name": "Mysql1show",
+      "credentials": {
+        "mySql": {
+          "id": "CDN1QJcyWrFEnXl1",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "select search_topic,topic_2_sources,topic_2_sections,topic_2_content from deep_research where search_topic = '{{ $('On form submission').first().json['Search Topic'] }}';",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.4,
+      "position": [
+        3560,
+        1400
+      ],
+      "id": "71149bc1-e4c3-43e3-9742-bf135c90a774",
+      "name": "Mysql1show2",
+      "credentials": {
+        "mySql": {
+          "id": "CDN1QJcyWrFEnXl1",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "table": {
+          "__rl": true,
+          "value": "deep_research",
+          "mode": "list",
+          "cachedResultName": "deep_research"
+        },
+        "dataMode": "defineBelow",
+        "columnToMatchOn": "search_topic",
+        "valueToMatchOn": "={{ $('On form submission').first().json['Search Topic'] }}",
+        "valuesToSend": {
+          "values": [
+            {
+              "column": "topic_2_sources",
+              "value": "={{ $('Merge4').first().json.numberedUrl.join(\"\\n\") }}"
+            },
+            {
+              "column": "topic_2_sections",
+              "value": "={{ $json.sections.join(\"\\n\") }}"
+            },
+            {
+              "column": "topic_2_content",
+              "value": "={{ $('Merge4').first().json.output.join(\"\\n \\n\") }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.4,
+      "position": [
+        3380,
+        1400
+      ],
+      "id": "f842793a-7d3d-4032-81b2-72b7c339974c",
+      "name": "Mysql",
+      "credentials": {
+        "mySql": {
+          "id": "CDN1QJcyWrFEnXl1",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "select search_topic,topic_3_sources,topic_3_sections,topic_3_content from deep_research where search_topic = '{{ $('On form submission').first().json['Search Topic'] }}';",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.4,
+      "position": [
+        3560,
+        1920
+      ],
+      "id": "10038119-cdb3-404f-8e27-c7c65b76a0ed",
+      "name": "Mysql1show3",
+      "credentials": {
+        "mySql": {
+          "id": "CDN1QJcyWrFEnXl1",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "select search_topic,topic_4_sources,topic_4_sections,topic_4_content from deep_research where search_topic = '{{ $('On form submission').first().json['Search Topic'] }}';",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.4,
+      "position": [
+        3560,
+        2420
+      ],
+      "id": "3d69f40d-50ad-493c-ae99-eac8fac62e3a",
+      "name": "Mysql1show4",
+      "credentials": {
+        "mySql": {
+          "id": "CDN1QJcyWrFEnXl1",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "select search_topic,topic_5_sources,topic_5_sections,topic_5_content from deep_research where search_topic = '{{ $('On form submission').first().json['Search Topic'] }}';",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.4,
+      "position": [
+        3560,
+        2920
+      ],
+      "id": "bde836a4-de23-4524-b198-12ed99e0d2b0",
+      "name": "Mysql1show5",
+      "credentials": {
+        "mySql": {
+          "id": "CDN1QJcyWrFEnXl1",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "select search_topic, title, introduction, topic_1_sources,topic_1_sections,topic_1_content, topic_2_sources,topic_2_sections,topic_2_content, topic_3_sources,topic_3_sections,topic_3_content, topic_4_sources,topic_4_sections,topic_4_content, topic_5_sources,topic_5_sections,topic_5_content from deep_research where search_topic = '{{ $('On form submission').first().json['Search Topic'] }}';",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.4,
+      "position": [
+        4320,
+        860
+      ],
+      "id": "82864e88-0e1e-406a-8c92-379629356c61",
+      "name": "Get Sources",
+      "credentials": {
+        "mySql": {
+          "id": "CDN1QJcyWrFEnXl1",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "table": {
+          "__rl": true,
+          "value": "deep_research",
+          "mode": "list",
+          "cachedResultName": "deep_research"
+        },
+        "dataMode": "defineBelow",
+        "columnToMatchOn": "search_topic",
+        "valueToMatchOn": "={{ $('On form submission').first().json['Search Topic'] }}",
+        "valuesToSend": {
+          "values": [
+            {
+              "column": "sources",
+              "value": "={{ $json.output }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.4,
+      "position": [
+        5140,
+        860
+      ],
+      "id": "f6072c4a-79a2-4824-9140-fbddea95b0d0",
+      "name": "Send Sources",
+      "credentials": {
+        "mySql": {
+          "id": "CDN1QJcyWrFEnXl1",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "select search_topic, sources from deep_research where search_topic = '{{ $('On form submission').first().json['Search Topic'] }}';",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.4,
+      "position": [
+        5380,
+        860
+      ],
+      "id": "713a5a31-330a-461a-8659-3f3d3cebcb2a",
+      "name": "Send Sources show",
+      "credentials": {
+        "mySql": {
+          "id": "CDN1QJcyWrFEnXl1",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "select search_topic, title, introduction, topic_1_sources,topic_1_sections,topic_1_content, topic_2_sources,topic_2_sections,topic_2_content, topic_3_sources,topic_3_sections,topic_3_content, topic_4_sources,topic_4_sections,topic_4_content, topic_5_sources,topic_5_sections,topic_5_content from deep_research where search_topic = '{{ $('On form submission').first().json['Search Topic'] }}';",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.4,
+      "position": [
+        5580,
+        860
+      ],
+      "id": "8f36e3c8-93f3-469e-b2a1-bf2f169687a6",
+      "name": "Get All Content",
+      "credentials": {
+        "mySql": {
+          "id": "CDN1QJcyWrFEnXl1",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "table": {
+          "__rl": true,
+          "value": "deep_research",
+          "mode": "list",
+          "cachedResultName": "deep_research"
+        },
+        "dataMode": "defineBelow",
+        "columnToMatchOn": "search_topic",
+        "valueToMatchOn": "={{ $('On form submission').first().json['Search Topic'] }}",
+        "valuesToSend": {
+          "values": [
+            {
+              "column": "toc",
+              "value": "={{ $json.output }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.4,
+      "position": [
+        4700,
+        1120
+      ],
+      "id": "49a739b1-9157-45c9-a1a6-8b3434a73205",
+      "name": "Send ToC",
+      "credentials": {
+        "mySql": {
+          "id": "CDN1QJcyWrFEnXl1",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "select search_topic, toc from deep_research where search_topic = '{{ $('On form submission').first().json['Search Topic'] }}';",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.4,
+      "position": [
+        4920,
+        1120
+      ],
+      "id": "63902179-e786-4a33-a44d-fd483aa4ec40",
+      "name": "Send ToC show",
+      "credentials": {
+        "mySql": {
+          "id": "CDN1QJcyWrFEnXl1",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// Code Node: Clean AI-generated HTML output from markdown wrappers and explanatory intro text\n\nreturn items.map(item => {\n  let raw = item.json.output || '';\n\n  // 清除开头说明性文本，比如 \"Here is ...\" 或 \"Here's ...\" 等\n  raw = raw.replace(/^(Here (is|'s)[^\\n]*\\n*)+/i, '');\n\n  // 移除 markdown 开头 ```html 或 ```（区分换行或不换行）\n  raw = raw.replace(/^```html\\s*/i, '');\n  raw = raw.replace(/^```\\s*/i, '');\n\n  // 移除结尾的 ```\n  raw = raw.replace(/```$/, '');\n\n  // 最终清理首尾空白\n  const cleaned = raw.trim();\n\n  return {\n    json: {\n      output: cleaned\n    }\n  };\n});\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2500,
+        1120
+      ],
+      "id": "e6b884e7-7ab6-4f24-9451-a2420c1b47b8",
+      "name": "清除markdown残留"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Code Node: Clean AI-generated HTML output from markdown wrappers and explanatory intro text\n\nreturn items.map(item => {\n  let raw = item.json.output || '';\n\n  // 清除开头说明性文本，比如 \"Here is ...\" 或 \"Here's ...\" 等\n  raw = raw.replace(/^(Here (is|'s)[^\\n]*\\n*)+/i, '');\n\n  // 移除 markdown 开头 ```html 或 ```（区分换行或不换行）\n  raw = raw.replace(/^```html\\s*/i, '');\n  raw = raw.replace(/^```\\s*/i, '');\n\n  // 移除结尾的 ```\n  raw = raw.replace(/```$/, '');\n\n  // 最终清理首尾空白\n  const cleaned = raw.trim();\n\n  return {\n    json: {\n      output: cleaned\n    }\n  };\n});\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2500,
+        1620
+      ],
+      "id": "901daba2-35d2-426a-a478-599767d53c77",
+      "name": "清除markdown残留1"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Code Node: Clean AI-generated HTML output from markdown wrappers and explanatory intro text\n\nreturn items.map(item => {\n  let raw = item.json.output || '';\n\n  // 清除开头说明性文本，比如 \"Here is ...\" 或 \"Here's ...\" 等\n  raw = raw.replace(/^(Here (is|'s)[^\\n]*\\n*)+/i, '');\n\n  // 移除 markdown 开头 ```html 或 ```（区分换行或不换行）\n  raw = raw.replace(/^```html\\s*/i, '');\n  raw = raw.replace(/^```\\s*/i, '');\n\n  // 移除结尾的 ```\n  raw = raw.replace(/```$/, '');\n\n  // 最终清理首尾空白\n  const cleaned = raw.trim();\n\n  return {\n    json: {\n      output: cleaned\n    }\n  };\n});\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2500,
+        2140
+      ],
+      "id": "103033f1-4bf4-4441-a267-4566fe6da6e7",
+      "name": "清除markdown残留2"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Code Node: Clean AI-generated HTML output from markdown wrappers and explanatory intro text\n\nreturn items.map(item => {\n  let raw = item.json.output || '';\n\n  // 清除开头说明性文本，比如 \"Here is ...\" 或 \"Here's ...\" 等\n  raw = raw.replace(/^(Here (is|'s)[^\\n]*\\n*)+/i, '');\n\n  // 移除 markdown 开头 ```html 或 ```（区分换行或不换行）\n  raw = raw.replace(/^```html\\s*/i, '');\n  raw = raw.replace(/^```\\s*/i, '');\n\n  // 移除结尾的 ```\n  raw = raw.replace(/```$/, '');\n\n  // 最终清理首尾空白\n  const cleaned = raw.trim();\n\n  return {\n    json: {\n      output: cleaned\n    }\n  };\n});\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2500,
+        2640
+      ],
+      "id": "e35b88e3-00e0-4234-aab3-cf1c9846f20b",
+      "name": "清除markdown残留3"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Code Node: Clean AI-generated HTML output from markdown wrappers and explanatory intro text\n\nreturn items.map(item => {\n  let raw = item.json.output || '';\n\n  // 清除开头说明性文本，比如 \"Here is ...\" 或 \"Here's ...\" 等\n  raw = raw.replace(/^(Here (is|'s)[^\\n]*\\n*)+/i, '');\n\n  // 移除 markdown 开头 ```html 或 ```（区分换行或不换行）\n  raw = raw.replace(/^```html\\s*/i, '');\n  raw = raw.replace(/^```\\s*/i, '');\n\n  // 移除结尾的 ```\n  raw = raw.replace(/```$/, '');\n\n  // 最终清理首尾空白\n  const cleaned = raw.trim();\n\n  return {\n    json: {\n      output: cleaned\n    }\n  };\n});\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2520,
+        3160
+      ],
+      "id": "cad57056-7361-426d-a1d9-d59456ab1c62",
+      "name": "清除markdown残留4"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Code Node: 清除前缀说明 + markdown 包裹 + 结尾 Note + markdown 尾部\nreturn items.map(item => {\n  let raw = item.json.output || '';\n\n  // 1. 去除开头说明性文字，如 \"Here is...\" 或 \"Here's...\"\n  raw = raw.replace(/^(Here\\s+(is|'s)[^\\n]*\\n*)+/i, '');\n\n  // 2. 去除 markdown 开头 ```html 或 ```\n  raw = raw.replace(/^```html\\s*/i, '');\n  raw = raw.replace(/^```\\s*/i, '');\n\n  // ✅ 3. 优先去除结尾 Note 说明（注意 . 表示换行，用 [\\s\\S] 或 `s` 模式）\n  raw = raw.replace(/\\n*Note:.*$/is, '');\n\n  // ✅ 4. 再去除末尾的 ```\n  raw = raw.replace(/\\n*```[\\s\\n]*$/i, '');\n\n  // 5. 去除首尾空行空格\n  const cleaned = raw.trim();\n\n  return {\n    json: {\n      output: cleaned\n    }\n  };\n});\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        4900,
+        860
+      ],
+      "id": "b0a91d6a-ff42-42e7-b8e8-ecc7355169f4",
+      "name": "清除markdown残留5"
+    },
+    {
+      "parameters": {
+        "jsCode": "return items.map(item => {\n  const raw = item.json.output || '';\n\n  // 1. 用正则提取出第一个以 <div 开头、</div> 结尾的 HTML 内容块\n  const match = raw.match(/<div[\\s\\S]*<\\/div>/i);\n\n  // 2. 如果匹配到，返回提取出的 HTML，否则原样返回\n  const cleaned = match ? match[0].trim() : raw.trim();\n\n  return {\n    json: {\n      output: cleaned\n    }\n  };\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        4460,
+        1120
+      ],
+      "id": "5139830b-ef2f-4d21-8b49-ffcd3af34a85",
+      "name": "清除markdown残留6"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "select chapter_1, chapter_2, chapter_3, chapter_4, chapter_5 from deep_research where search_topic = '{{ $('On form submission').first().json['Search Topic'] }}';",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.4,
+      "position": [
+        3880,
+        1460
+      ],
+      "id": "542c6ee0-00b2-4039-aab3-ded82e8ffdf3",
+      "name": "MySQL1",
+      "credentials": {
+        "mySql": {
+          "id": "CDN1QJcyWrFEnXl1",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// 拆分章节字段为单独对象数组\nconst item = items[0].json;  // 只有一项\nconst output = [];\n\nfor (const key in item) {\n  output.push({\n    json: {\n      chapter: key,\n      content: item[key]\n    }\n  });\n}\n\nreturn output;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        4700,
+        1460
+      ],
+      "id": "1adb3b5c-d566-46ce-9244-b02b884fb634",
+      "name": "Code5"
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "=output"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        5560,
+        1460
+      ],
+      "id": "d84b4201-3b92-4bd9-a00b-6c53ddd105ee",
+      "name": "Aggregate12"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatDeepSeek",
+      "typeVersion": 1,
+      "position": [
+        4840,
+        1580
+      ],
+      "id": "e6b59352-f5fd-45fa-b97f-fe12f78f41e1",
+      "name": "DeepSeek Chat Model10",
+      "credentials": {
+        "deepSeekApi": {
+          "id": "eEh2HVGNkSAq4XE9",
+          "name": "DeepSeek account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "select topic_1_content, topic_2_content, topic_3_content, topic_4_content, topic_5_content from deep_research where search_topic = '{{ $('On form submission').first().json['Search Topic'] }}';",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.4,
+      "position": [
+        3880,
+        2000
+      ],
+      "id": "5366d2f6-90d4-4142-a996-e7d359773d31",
+      "name": "MySQL2",
+      "credentials": {
+        "mySql": {
+          "id": "CDN1QJcyWrFEnXl1",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=针对输入的HTML代码（{{ $json.content }}），仅将其中的英文文字内容翻译成中文，不改动HTML原有结构，输出内容不得包含任何无关信息（如markdown、提示性文字等），需为纯净的HTML代码。",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        4980,
+        1460
+      ],
+      "id": "9c0c1ca5-9d8f-4239-9a9d-e3f3558dafc6",
+      "name": "章节"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.chapter }}",
+                    "rightValue": "topic_1_content",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "ce3dcf40-841a-4b73-acb4-261f6101b968"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "52157175-2b8c-44f5-88c7-6d57fd5c11c3",
+                    "leftValue": "={{ $json.chapter }}",
+                    "rightValue": "topic_2_content",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "f53a5d21-1905-4e7c-aa48-f13cc6d6b362",
+                    "leftValue": "={{ $json.chapter }}",
+                    "rightValue": "topic_3_content",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "8a6ea945-fc5e-4dd1-a183-8803c25c64f2",
+                    "leftValue": "={{ $json.chapter }}",
+                    "rightValue": "topic_4_content",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "loose",
+                  "version": 2
+                },
+                "conditions": [
+                  {
+                    "id": "7b9f5989-f0df-44b3-8dab-90e7dc6f4804",
+                    "leftValue": "={{ $json.chapter }}",
+                    "rightValue": "topic_5_content",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        4320,
+        1960
+      ],
+      "id": "9ea0ed00-dde4-4b72-ad6e-8be66cdd0489",
+      "name": "Switch2"
+    },
+    {
+      "parameters": {
+        "jsCode": "const input = items[0].json.content || '';\nconst chapter = items[0].json.chapter || 'unknown';\n\n// 清洗前处理：去除说明文字和 markdown 包裹符\nlet cleaned = input\n  .replace(/Here('?s)? [^\\n]*\\n*/gi, '')   // 删除说明性开头\n  .replace(/```html\\s*/gi, '')             // 删除 ```html\n  .replace(/```/g, '')                     // 删除 ``` 分隔符\n  .trim();\n\n// 拆分多个 HTML 文档（以 <!DOCTYPE html> 为界）\nconst fragments = cleaned\n  .split(/(?=<!DOCTYPE html>)/i)  // 保留 <!DOCTYPE html> 开头\n  .map(s => s.trim())\n  .filter(Boolean);               // 去掉空项\n\n// 输出格式\nreturn fragments.map((html, index) => ({\n  json: {\n    chapter,\n    part: index + 1,\n    html\n  }\n}));\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        4700,
+        1680
+      ],
+      "id": "80e2be6a-a21d-4963-8985-4dc2cebf3d7e",
+      "name": "Code7"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=针对输入的HTML代码（{{ $json.html }}），仅将其中的英文文字内容翻译成中文，不改动HTML原有结构，输出内容不得包含任何无关信息（如markdown、提示性文字等），需为纯净的HTML代码。",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        4980,
+        1680
+      ],
+      "id": "57cf6eca-9683-4d2b-aae1-40c4494be273",
+      "name": "topic content1"
+    },
+    {
+      "parameters": {
+        "jsCode": "const input = items[0].json.content || '';\nconst chapter = items[0].json.chapter || 'unknown';\n\n// 清洗前处理：去除说明文字和 markdown 包裹符\nlet cleaned = input\n  .replace(/Here('?s)? [^\\n]*\\n*/gi, '')   // 删除说明性开头\n  .replace(/```html\\s*/gi, '')             // 删除 ```html\n  .replace(/```/g, '')                     // 删除 ``` 分隔符\n  .trim();\n\n// 拆分多个 HTML 文档（以 <!DOCTYPE html> 为界）\nconst fragments = cleaned\n  .split(/(?=<!DOCTYPE html>)/i)  // 保留 <!DOCTYPE html> 开头\n  .map(s => s.trim())\n  .filter(Boolean);               // 去掉空项\n\n// 输出格式\nreturn fragments.map((html, index) => ({\n  json: {\n    chapter,\n    part: index + 1,\n    html\n  }\n}));\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        4700,
+        1840
+      ],
+      "id": "80776222-da8a-4b83-b651-7efab317033b",
+      "name": "Code8"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=针对输入的HTML代码（{{ $json.html }}），仅将其中的英文文字内容翻译成中文，不改动HTML原有结构，输出内容不得包含任何无关信息（如markdown、提示性文字等），需为纯净的HTML代码。",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        4980,
+        1840
+      ],
+      "id": "fabbc651-3303-4f82-98b4-d195230dac3c",
+      "name": "topic content2"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatDeepSeek",
+      "typeVersion": 1,
+      "position": [
+        4840,
+        2080
+      ],
+      "id": "5760df75-78fd-4169-b2bb-54858fc24c95",
+      "name": "DeepSeek Chat Model14",
+      "credentials": {
+        "deepSeekApi": {
+          "id": "eEh2HVGNkSAq4XE9",
+          "name": "DeepSeek account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "// 合并所有 output 字段中的 HTML\nlet combinedHtml = items\n  .map(item => item.json.output?.trim() || '')\n  .filter(Boolean)\n  .join('\\n \\n');\n\n// 输出为单个对象，字段名为 content\nreturn [\n  {\n    json: {\n      content: combinedHtml\n    }\n  }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        5340,
+        1680
+      ],
+      "id": "15ea8793-d890-47c7-8c2e-3764e8b68f10",
+      "name": "Code9"
+    },
+    {
+      "parameters": {
+        "jsCode": "// 合并所有 output 字段中的 HTML\nlet combinedHtml = items\n  .map(item => item.json.output?.trim() || '')\n  .filter(Boolean)\n  .join('\\n \\n');\n\n// 输出为单个对象，字段名为 content\nreturn [\n  {\n    json: {\n      content: combinedHtml\n    }\n  }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        5340,
+        1840
+      ],
+      "id": "3480f50b-5201-414f-bb79-d285c6393188",
+      "name": "Code10"
+    },
+    {
+      "parameters": {
+        "jsCode": "const input = items[0].json.content || '';\nconst chapter = items[0].json.chapter || 'unknown';\n\n// 清洗前处理：去除说明文字和 markdown 包裹符\nlet cleaned = input\n  .replace(/Here('?s)? [^\\n]*\\n*/gi, '')   // 删除说明性开头\n  .replace(/```html\\s*/gi, '')             // 删除 ```html\n  .replace(/```/g, '')                     // 删除 ``` 分隔符\n  .trim();\n\n// 拆分多个 HTML 文档（以 <!DOCTYPE html> 为界）\nconst fragments = cleaned\n  .split(/(?=<!DOCTYPE html>)/i)  // 保留 <!DOCTYPE html> 开头\n  .map(s => s.trim())\n  .filter(Boolean);               // 去掉空项\n\n// 输出格式\nreturn fragments.map((html, index) => ({\n  json: {\n    chapter,\n    part: index + 1,\n    html\n  }\n}));\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        4700,
+        2000
+      ],
+      "id": "847dd65c-9cdd-451f-a639-118c1054d7d8",
+      "name": "Code11"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=针对输入的HTML代码（{{ $json.html }}），仅将其中的英文文字内容翻译成中文，不改动HTML原有结构，输出内容不得包含任何无关信息（如markdown、提示性文字等），需为纯净的HTML代码。",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        4980,
+        2000
+      ],
+      "id": "13020469-8288-4da6-b9e2-6d34cfcd0f4e",
+      "name": "topic content3"
+    },
+    {
+      "parameters": {
+        "jsCode": "// 合并所有 output 字段中的 HTML\nlet combinedHtml = items\n  .map(item => item.json.output?.trim() || '')\n  .filter(Boolean)\n  .join('\\n \\n');\n\n// 输出为单个对象，字段名为 content\nreturn [\n  {\n    json: {\n      content: combinedHtml\n    }\n  }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        5340,
+        2000
+      ],
+      "id": "9e89487a-e1df-47a1-9c88-126c3260ecac",
+      "name": "Code12"
+    },
+    {
+      "parameters": {
+        "jsCode": "const input = items[0].json.content || '';\nconst chapter = items[0].json.chapter || 'unknown';\n\n// 清洗前处理：去除说明文字和 markdown 包裹符\nlet cleaned = input\n  .replace(/Here('?s)? [^\\n]*\\n*/gi, '')   // 删除说明性开头\n  .replace(/```html\\s*/gi, '')             // 删除 ```html\n  .replace(/```/g, '')                     // 删除 ``` 分隔符\n  .trim();\n\n// 拆分多个 HTML 文档（以 <!DOCTYPE html> 为界）\nconst fragments = cleaned\n  .split(/(?=<!DOCTYPE html>)/i)  // 保留 <!DOCTYPE html> 开头\n  .map(s => s.trim())\n  .filter(Boolean);               // 去掉空项\n\n// 输出格式\nreturn fragments.map((html, index) => ({\n  json: {\n    chapter,\n    part: index + 1,\n    html\n  }\n}));\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        4700,
+        2160
+      ],
+      "id": "1f05b52e-7f38-4d23-be76-ab75861716e4",
+      "name": "Code13"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=针对输入的HTML代码（{{ $json.html }}），仅将其中的英文文字内容翻译成中文，不改动HTML原有结构，输出内容不得包含任何无关信息（如markdown、提示性文字等），需为纯净的HTML代码。",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        4980,
+        2160
+      ],
+      "id": "571e7760-3d3b-4b70-8a89-279cfb02f890",
+      "name": "topic content4"
+    },
+    {
+      "parameters": {
+        "jsCode": "// 合并所有 output 字段中的 HTML\nlet combinedHtml = items\n  .map(item => item.json.output?.trim() || '')\n  .filter(Boolean)\n  .join('\\n \\n');\n\n// 输出为单个对象，字段名为 content\nreturn [\n  {\n    json: {\n      content: combinedHtml\n    }\n  }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        5340,
+        2160
+      ],
+      "id": "319c73cd-b68c-43e3-889b-719c8bcd71a5",
+      "name": "Code14"
+    },
+    {
+      "parameters": {
+        "jsCode": "const input = items[0].json.content || '';\nconst chapter = items[0].json.chapter || 'unknown';\n\n// 清洗前处理：去除说明文字和 markdown 包裹符\nlet cleaned = input\n  .replace(/Here('?s)? [^\\n]*\\n*/gi, '')   // 删除说明性开头\n  .replace(/```html\\s*/gi, '')             // 删除 ```html\n  .replace(/```/g, '')                     // 删除 ``` 分隔符\n  .trim();\n\n// 拆分多个 HTML 文档（以 <!DOCTYPE html> 为界）\nconst fragments = cleaned\n  .split(/(?=<!DOCTYPE html>)/i)  // 保留 <!DOCTYPE html> 开头\n  .map(s => s.trim())\n  .filter(Boolean);               // 去掉空项\n\n// 输出格式\nreturn fragments.map((html, index) => ({\n  json: {\n    chapter,\n    part: index + 1,\n    html\n  }\n}));\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        4700,
+        2320
+      ],
+      "id": "73a12484-b984-4a6c-9629-c26a379723c1",
+      "name": "Code15"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=针对输入的HTML代码（{{ $json.html }}），仅将其中的英文文字内容翻译成中文，不改动HTML原有结构，输出内容不得包含任何无关信息（如markdown、提示性文字等），需为纯净的HTML代码。",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        4980,
+        2320
+      ],
+      "id": "9e992f7a-40be-479c-b5d7-953ff9004172",
+      "name": "topic content5"
+    },
+    {
+      "parameters": {
+        "jsCode": "// 合并所有 output 字段中的 HTML\nlet combinedHtml = items\n  .map(item => item.json.output?.trim() || '')\n  .filter(Boolean)\n  .join('\\n \\n');\n\n// 输出为单个对象，字段名为 content\nreturn [\n  {\n    json: {\n      content: combinedHtml\n    }\n  }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        5340,
+        2320
+      ],
+      "id": "0be07f92-d307-4527-bdf8-4ef39d97c33e",
+      "name": "Code16"
+    },
+    {
+      "parameters": {
+        "numberInputs": 5
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        5900,
+        1960
+      ],
+      "id": "0db53e47-0d60-4b2c-81cd-a22124c23cf1",
+      "name": "Merge9"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "select sources from deep_research where search_topic = '{{ $('On form submission').first().json['Search Topic'] }}';",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.4,
+      "position": [
+        3880,
+        2520
+      ],
+      "id": "57b3dda2-e3f2-48a1-b732-6fdaf82eed8d",
+      "name": "MySQL3",
+      "credentials": {
+        "mySql": {
+          "id": "CDN1QJcyWrFEnXl1",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatDeepSeek",
+      "typeVersion": 1,
+      "position": [
+        4840,
+        2660
+      ],
+      "id": "fdc539cd-233c-4964-9379-2663fc3bb405",
+      "name": "DeepSeek Chat Model12",
+      "credentials": {
+        "deepSeekApi": {
+          "id": "eEh2HVGNkSAq4XE9",
+          "name": "DeepSeek account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "function cleanHtml(raw) {\n  if (typeof raw !== 'string') return '';\n\n  // 去除头部冗余文字\n  raw = raw.replace(/^(Here('s)?|以下是|经过检查)[\\s\\S]{0,150}?(?=<\\s*!DOCTYPE html>)/i, '');\n\n  // 去除 markdown 开头 ```html 或 ```\n  raw = raw.replace(/^```html\\s*/i, '');\n  raw = raw.replace(/^```\\s*/i, '');\n\n  // 去除结尾的 ```\n  raw = raw.replace(/```$/, '');\n\n  return raw.trim();\n}\n\nlet combinedHtml = items\n  .map(item => cleanHtml(item.json.output))\n  .filter(Boolean)\n  .join('\\n\\n');\n\nreturn [\n  {\n    json: {\n      sources: combinedHtml\n    }\n  }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        5560,
+        2520
+      ],
+      "id": "2fc830f9-c642-4df3-9987-47df2f5f7620",
+      "name": "sources1"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatDeepSeek",
+      "typeVersion": 1,
+      "position": [
+        4660,
+        3080
+      ],
+      "id": "84e10ddb-47bb-42c7-8491-57e8b87e7244",
+      "name": "DeepSeek Chat Model13",
+      "credentials": {
+        "deepSeekApi": {
+          "id": "eEh2HVGNkSAq4XE9",
+          "name": "DeepSeek account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "numberInputs": 3
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        5440,
+        2940
+      ],
+      "id": "dab6ff91-b312-4578-b22d-698129bb9bb1",
+      "name": "Merge10"
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "=output"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        5660,
+        2940
+      ],
+      "id": "b60b10fc-0cf6-4603-84c0-4f9300838568",
+      "name": "Aggregate14"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "select title, introduction, toc from deep_research where search_topic = '{{ $('On form submission').first().json['Search Topic'] }}';",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.4,
+      "position": [
+        3880,
+        2940
+      ],
+      "id": "f0e6b52b-314a-4fde-b83e-f847a9470259",
+      "name": "MySQL4",
+      "credentials": {
+        "mySql": {
+          "id": "CDN1QJcyWrFEnXl1",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "numberInputs": 4
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        6240,
+        2140
+      ],
+      "id": "1404cb9b-04c0-4de2-834c-7995642c32db",
+      "name": "Merge11"
+    },
+    {
+      "parameters": {
+        "jsCode": "// N8N Code Node to combine multiple fields into a single field with new lines\n\n// This code expects the input item to have the following fields:\n// - Title\n// - Introduction\n// - ToC (Table of Contents)\n// - Chapter 1\n// - Topic 1 Content\n// - Chapter 2\n// - Topic 2 Content\n// - Chapter 3\n// - Topic 3 Content\n// - Chapter 4\n// - Topic 4 Content\n// - Chapter 5\n// - Topic 5 Content\n// - Sources\n\n// Access the incoming data\nconst item = items[0];\n\n// Create a new field called \"CombinedContent\" that joins all fields with newlines\nconst combinedContent = [\n  item.json.title || '',\n  item.json.introduction || '',\n  item.json.toc || '',\n  item.json['chapter_1'] || '',\n  item.json['topic_1_content'] || '',\n  item.json['chapter_2'] || '',\n  item.json['topic_2_content'] || '',\n  item.json['chapter_3'] || '',\n  item.json['topic_3_content'] || '',\n  item.json['chapter_4'] || '',\n  item.json['topic_4_content'] || '',\n  item.json['chapter_5'] || '',\n  item.json['topic_5_content'] || '',\n  item.json.sources || ''\n].join('\\n\\n');\n\n// Add the combined content to the item\nitem.json.CombinedContent = combinedContent;\n\n// Return the modified item\nreturn [item];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        6560,
+        2660
+      ],
+      "id": "f595e0b6-495f-4208-8dd9-e39e9b2273e2",
+      "name": "Combine Content1"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "select search_topic, title, introduction, chapter_1, chapter_2, chapter_3, chapter_4, chapter_5, topic_1_sources, topic_1_sections, topic_1_content, topic_2_sources, topic_2_sections, topic_2_content, topic_3_sources, topic_3_sections, topic_3_content, topic_4_sources, topic_4_sections, topic_4_content, topic_5_sources, topic_5_sections, topic_5_content, sources, toc from deep_research where search_topic = '{{ $('On form submission').first().json['Search Topic'] }}';",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.4,
+      "position": [
+        6560,
+        2420
+      ],
+      "id": "3abf862f-87ca-4b95-80a6-1b5f76883692",
+      "name": "Get All Content4",
+      "credentials": {
+        "mySql": {
+          "id": "CDN1QJcyWrFEnXl1",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "success"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        6560,
+        2160
+      ],
+      "id": "3c582c0a-e15a-42bd-94f0-5caa3d10e633",
+      "name": "Aggregate10"
+    },
+    {
+      "parameters": {
+        "url": "={{ $json.download_url }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        6560,
+        3160
+      ],
+      "id": "ab5582c8-5855-4a9d-95d4-c345de8bc088",
+      "name": "Download PDF1"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://rest-us.apitemplate.io/v2/create-pdf-from-html",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "apiTemplateIoApi",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "filename",
+              "value": "={{ $json.search_topic }}.pdf"
+            }
+          ]
+        },
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"body\": \"{{$json[\"CombinedContent\"].replace(/\"/g, '\\\\\"').replace(/\\n/g, '\\\\n')}}\",\n  \"css\": \"<style>.bg{background: red};</style>\",\n  \"data\": {\n    \"name\": \"This is a title\"\n  },\n  \"settings\": {\n    \"paper_size\": \"A4\",\n    \"orientation\": \"1\",\n    \"header_font_size\": \"9px\",\n    \"margin_top\": \"40\",\n    \"margin_right\": \"10\",\n    \"margin_bottom\": \"40\",\n    \"margin_left\": \"10\",\n    \"print_background\": \"1\",\n    \"displayHeaderFooter\": true,\n    \"custom_header\": \"<style>#header, #footer { padding: 0 !important; }</style>\\n<table style=\\\"width: 100%; padding: 0px 5px;margin: 0px!important;font-size: 8px\\\">\\n  <tr>\\n    <td style=\\\"text-align:left; width:30%!important;\\\"><span class=\\\"date\\\"></span></td>\\n    <td style=\\\"text-align:center; width:30%!important;\\\"><span class=\\\"pageNumber\\\"></span></td>\\n    <td style=\\\"text-align:right; width:30%!important;\\\"><span class=\\\"totalPages\\\"></span></td>\\n  </tr>\\n</table>\",\n    \"custom_footer\": \"<style>#header, #footer { padding: 0 !important; }</style>\\n<table style=\\\"width: 100%; padding: 0px 5px;margin: 0px!important;font-size: 8px\\\">\\n  <tr>\\n    <td style=\\\"text-align:left; width:30%!important;\\\"><span class=\\\"date\\\"></span></td>\\n    <td style=\\\"text-align:center; width:30%!important;\\\"><span class=\\\"pageNumber\\\"></span></td>\\n    <td style=\\\"text-align:right; width:30%!important;\\\"><span class=\\\"totalPages\\\"></span></td>\\n  </tr>\\n</table>\"\n  }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        6560,
+        2900
+      ],
+      "id": "76130020-22cf-45fc-b1c2-f12dff86d58c",
+      "name": "Generate PDF",
+      "credentials": {
+        "apiTemplateIoApi": {
+          "id": "qJDhMjqltBiY66mX",
+          "name": "APITemplate.io account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## 翻译",
+        "height": 2020,
+        "width": 2720,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        3700,
+        1300
+      ],
+      "id": "0a81f94a-5f02-44b3-8a98-9731d01485f0",
+      "name": "Sticky Note9"
+    },
+    {
+      "parameters": {
+        "jsCode": "// 拆分章节字段为单独对象数组\nconst item = items[0].json;  // 只有一项\nconst output = [];\n\nfor (const key in item) {\n  output.push({\n    json: {\n      chapter: key,\n      content: item[key]\n    }\n  });\n}\n\nreturn output;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        4100,
+        2000
+      ],
+      "id": "b00fb504-ecf0-4ed6-bbd3-3960825bdad0",
+      "name": "拆分"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=针对输入的HTML代码（{{ $json.title }}），仅将其中的英文文字内容翻译成中文，不改动HTML原有结构，输出内容不得包含任何无关信息（如markdown、提示性文字等），需为纯净的HTML代码。",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        4980,
+        2760
+      ],
+      "id": "b88a55f9-c34e-4089-8af5-2c3b6d887b9a",
+      "name": "翻译 title"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=针对输入的HTML代码（{{ $json.introduction }}），仅将其中的英文文字内容翻译成中文，不改动HTML原有结构，输出内容不得包含任何无关信息（如markdown、提示性文字等），需为纯净的HTML代码。",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        4980,
+        2940
+      ],
+      "id": "83cac7fd-90a5-4ae0-a2ba-616642027634",
+      "name": "翻译 Introduction"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=针对输入的HTML代码（{{ $json.toc }}），仅将其中的英文文字内容翻译成中文，不改动HTML原有结构，输出内容不得包含任何无关信息（如markdown、提示性文字等），需为纯净的HTML代码。",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        4980,
+        3120
+      ],
+      "id": "57890842-329c-4c58-ae5e-f8a49b85f4c8",
+      "name": "翻译 toc(目录)"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "table": {
+          "__rl": true,
+          "value": "deep_research",
+          "mode": "list",
+          "cachedResultName": "deep_research"
+        },
+        "dataMode": "defineBelow",
+        "columnToMatchOn": "search_topic",
+        "valueToMatchOn": "={{ $('On form submission').first().json['Search Topic'] }}",
+        "valuesToSend": {
+          "values": [
+            {
+              "column": "chapter_1",
+              "value": "={{ $json.output[0] }}"
+            },
+            {
+              "column": "chapter_2",
+              "value": "={{ $json.output[1] }}"
+            },
+            {
+              "column": "chapter_3",
+              "value": "={{ $json.output[2] }}"
+            },
+            {
+              "column": "chapter_4",
+              "value": "={{ $json.output[3] }}"
+            },
+            {
+              "column": "chapter_5",
+              "value": "={{ $json.output[4] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.4,
+      "position": [
+        5900,
+        1460
+      ],
+      "id": "f694e34b-8fd7-4842-b1b4-f1e9b526a8cb",
+      "name": "更新翻译",
+      "credentials": {
+        "mySql": {
+          "id": "CDN1QJcyWrFEnXl1",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "table": {
+          "__rl": true,
+          "value": "deep_research",
+          "mode": "list",
+          "cachedResultName": "deep_research"
+        },
+        "dataMode": "defineBelow",
+        "columnToMatchOn": "search_topic",
+        "valueToMatchOn": "={{ $('On form submission').first().json['Search Topic'] }}",
+        "valuesToSend": {
+          "values": [
+            {
+              "column": "sources",
+              "value": "={{ $json.sources }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.4,
+      "position": [
+        5900,
+        2520
+      ],
+      "id": "7d0b41ea-c9f9-42b9-bb3e-41eae286d1f1",
+      "name": "更新翻译1",
+      "credentials": {
+        "mySql": {
+          "id": "CDN1QJcyWrFEnXl1",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "table": {
+          "__rl": true,
+          "value": "deep_research",
+          "mode": "list",
+          "cachedResultName": "deep_research"
+        },
+        "dataMode": "defineBelow",
+        "columnToMatchOn": "search_topic",
+        "valueToMatchOn": "={{ $('On form submission').first().json['Search Topic'] }}",
+        "valuesToSend": {
+          "values": [
+            {
+              "column": "title",
+              "value": "={{ $json.output[0] }}"
+            },
+            {
+              "column": "introduction",
+              "value": "={{ $json.output[1] }}"
+            },
+            {
+              "column": "toc",
+              "value": "={{ $json.output[2] }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.4,
+      "position": [
+        5900,
+        2940
+      ],
+      "id": "c023f230-7888-478c-b0d0-51cfe6f19ded",
+      "name": "更新翻译2",
+      "credentials": {
+        "mySql": {
+          "id": "CDN1QJcyWrFEnXl1",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "table": {
+          "__rl": true,
+          "value": "deep_research",
+          "mode": "list",
+          "cachedResultName": "deep_research"
+        },
+        "dataMode": "defineBelow",
+        "columnToMatchOn": "search_topic",
+        "valueToMatchOn": "={{ $('On form submission').first().json['Search Topic'] }}",
+        "valuesToSend": {
+          "values": [
+            {
+              "column": "topic_1_content",
+              "value": "={{ $json.content }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.4,
+      "position": [
+        5560,
+        1680
+      ],
+      "id": "c1449d82-6065-421b-b460-f10c7352c8a8",
+      "name": "更新翻译 ch1",
+      "credentials": {
+        "mySql": {
+          "id": "CDN1QJcyWrFEnXl1",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "table": {
+          "__rl": true,
+          "value": "deep_research",
+          "mode": "list",
+          "cachedResultName": "deep_research"
+        },
+        "dataMode": "defineBelow",
+        "columnToMatchOn": "search_topic",
+        "valueToMatchOn": "={{ $('On form submission').first().json['Search Topic'] }}",
+        "valuesToSend": {
+          "values": [
+            {
+              "column": "topic_2_content",
+              "value": "={{ $json.content }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.4,
+      "position": [
+        5560,
+        1840
+      ],
+      "id": "f7e44d6b-f552-4e31-847a-d63f13044ae7",
+      "name": "更新翻译 ch2",
+      "credentials": {
+        "mySql": {
+          "id": "CDN1QJcyWrFEnXl1",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "table": {
+          "__rl": true,
+          "value": "deep_research",
+          "mode": "list",
+          "cachedResultName": "deep_research"
+        },
+        "dataMode": "defineBelow",
+        "columnToMatchOn": "search_topic",
+        "valueToMatchOn": "={{ $('On form submission').first().json['Search Topic'] }}",
+        "valuesToSend": {
+          "values": [
+            {
+              "column": "topic_3_content",
+              "value": "={{ $json.content }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.4,
+      "position": [
+        5560,
+        2000
+      ],
+      "id": "e3903830-5cf2-4180-b0eb-9a058cce6a44",
+      "name": "更新翻译 ch3",
+      "credentials": {
+        "mySql": {
+          "id": "CDN1QJcyWrFEnXl1",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "table": {
+          "__rl": true,
+          "value": "deep_research",
+          "mode": "list",
+          "cachedResultName": "deep_research"
+        },
+        "dataMode": "defineBelow",
+        "columnToMatchOn": "search_topic",
+        "valueToMatchOn": "={{ $('On form submission').first().json['Search Topic'] }}",
+        "valuesToSend": {
+          "values": [
+            {
+              "column": "topic_4_content",
+              "value": "={{ $json.content }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.4,
+      "position": [
+        5560,
+        2160
+      ],
+      "id": "6e4004e0-bd4d-4945-a7aa-001d2b24c83d",
+      "name": "更新翻译 ch4",
+      "credentials": {
+        "mySql": {
+          "id": "CDN1QJcyWrFEnXl1",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "table": {
+          "__rl": true,
+          "value": "deep_research",
+          "mode": "list",
+          "cachedResultName": "deep_research"
+        },
+        "dataMode": "defineBelow",
+        "columnToMatchOn": "search_topic",
+        "valueToMatchOn": "={{ $('On form submission').first().json['Search Topic'] }}",
+        "valuesToSend": {
+          "values": [
+            {
+              "column": "topic_5_content",
+              "value": "={{ $json.content }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.mySql",
+      "typeVersion": 2.4,
+      "position": [
+        5560,
+        2320
+      ],
+      "id": "e6e75423-0bc1-4b27-809c-4dc0a74f3a11",
+      "name": "更新翻译 ch5",
+      "credentials": {
+        "mySql": {
+          "id": "CDN1QJcyWrFEnXl1",
+          "name": "MySQL account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=# Role: HTML结构完整性检查与修复专家\n\n针对输入的HTML代码（{{ $json.sources }}）\n\n## Profile\n- language: 中文/英文\n- description: 专门检查并修复HTML代码片段结构完整性的专家，确保所有标签正确闭合\n- background: 拥有多年HTML解析和修复经验，熟悉各种HTML标签嵌套规则\n- personality: 严谨、细致、高效\n- expertise: HTML语法分析、标签匹配、结构修复\n- target_audience: 开发者、内容编辑、网页设计师\n\n## Skills\n\n1. HTML解析\n   - 标签识别: 准确识别HTML片段中的所有标签\n   - 结构分析: 分析标签嵌套关系和层级结构\n   - 完整性检查: 验证每个开始标签是否有对应的结束标签\n   - 错误定位: 快速定位结构不完整的位置\n\n2. 修复能力\n   - 自动补全: 为缺失的结束标签自动补全\n   - 嵌套修正: 纠正错误的标签嵌套顺序\n   - 语法优化: 优化HTML代码格式\n   - 兼容处理: 处理自闭合标签和特殊标签\n\n## Rules\n\n1. 基本原则：\n   - 保持原始内容: 只修复结构问题，不修改原有内容\n   - 最小干预: 仅添加必要的闭合标签\n   - 格式保留: 保持原有代码缩进和格式\n\n2. 行为准则：\n   - 不添加注释: 输出纯净HTML代码\n   - 不改变语义: 确保修复后的代码与原意一致\n   - 不引入新问题: 确保修复不会造成新的结构问题\n   - 不处理内容错误: 仅处理结构问题，不修正内容错误\n\n3. 限制条件：\n   - 不处理JavaScript: 不分析或修复脚本代码\n   - 输出内容不得包含任何无关信息（如markdown、提示性文字如：经过检查，您提供的HTML代码片段结构完整，所有标签都正确闭合且嵌套关系正确。以下是完整的代码验证 等），需为纯净的HTML代码\n\n## Workflows\n\n- 目标: 检查并修复HTML代码片段的结构完整性\n- 步骤 1: 解析输入的HTML代码片段，构建标签树\n- 步骤 2: 遍历标签树，检查每个开始标签是否有对应的结束标签\n- 步骤 3: 为缺失的结束标签在正确位置补全\n- 预期结果: 输出结构完整的HTML代码片段\n\n## Initialization\n作为HTML结构完整性检查与修复专家，你必须遵守上述Rules，按照Workflows执行任务。",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2,
+      "position": [
+        4980,
+        2520
+      ],
+      "id": "205cfd90-308c-438e-92b3-d3a39ffd79ca",
+      "name": "补全 sources 可能会缺失闭合标签"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Plan Topics": {
+      "main": [
+        [
+          {
+            "node": "Intro",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Set Topics",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "5 Topics": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Plan Topics",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Intro": {
+      "main": [
+        [
+          {
+            "node": "Send Intro",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Topics": {
+      "main": [
+        [
+          {
+            "node": "Split Out1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge1": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out1": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Tavily",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Tavily1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Tavily2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Tavily3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Tavily4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Tavily": {
+      "main": [
+        [
+          {
+            "node": "Split Out2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out2": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code": {
+      "main": [
+        [
+          {
+            "node": "Writer",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Aggregate1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "Merge3",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Writer": {
+      "main": [
+        [
+          {
+            "node": "清除markdown残留",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate1": {
+      "main": [
+        [
+          {
+            "node": "Merge3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge3": {
+      "main": [
+        [
+          {
+            "node": "HTML",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Tavily1": {
+      "main": [
+        [
+          {
+            "node": "Split Out3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out3": {
+      "main": [
+        [
+          {
+            "node": "Code1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code1": {
+      "main": [
+        [
+          {
+            "node": "Writer1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Aggregate3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate2": {
+      "main": [
+        [
+          {
+            "node": "Merge4",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Writer1": {
+      "main": [
+        [
+          {
+            "node": "清除markdown残留1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate3": {
+      "main": [
+        [
+          {
+            "node": "Merge4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge4": {
+      "main": [
+        [
+          {
+            "node": "HTML1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Tavily2": {
+      "main": [
+        [
+          {
+            "node": "Split Out4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out4": {
+      "main": [
+        [
+          {
+            "node": "Code2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code2": {
+      "main": [
+        [
+          {
+            "node": "Writer2",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Aggregate5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate4": {
+      "main": [
+        [
+          {
+            "node": "Merge5",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Writer2": {
+      "main": [
+        [
+          {
+            "node": "清除markdown残留2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate5": {
+      "main": [
+        [
+          {
+            "node": "Merge5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge5": {
+      "main": [
+        [
+          {
+            "node": "HTML2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Tavily3": {
+      "main": [
+        [
+          {
+            "node": "Split Out5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out5": {
+      "main": [
+        [
+          {
+            "node": "Code3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code3": {
+      "main": [
+        [
+          {
+            "node": "Writer3",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Aggregate7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate6": {
+      "main": [
+        [
+          {
+            "node": "Merge6",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Writer3": {
+      "main": [
+        [
+          {
+            "node": "清除markdown残留3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate7": {
+      "main": [
+        [
+          {
+            "node": "Merge6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge6": {
+      "main": [
+        [
+          {
+            "node": "HTML3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Tavily4": {
+      "main": [
+        [
+          {
+            "node": "Split Out6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out6": {
+      "main": [
+        [
+          {
+            "node": "Code4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code4": {
+      "main": [
+        [
+          {
+            "node": "Writer4",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Aggregate9",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate8": {
+      "main": [
+        [
+          {
+            "node": "Merge7",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Writer4": {
+      "main": [
+        [
+          {
+            "node": "清除markdown残留4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate9": {
+      "main": [
+        [
+          {
+            "node": "Merge7",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge7": {
+      "main": [
+        [
+          {
+            "node": "HTML4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limit": {
+      "main": [
+        [
+          {
+            "node": "Get Sources",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sources": {
+      "main": [
+        [
+          {
+            "node": "清除markdown残留5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge2": {
+      "main": [
+        [
+          {
+            "node": "Limit",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTML": {
+      "main": [
+        [
+          {
+            "node": "Combine",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Combine": {
+      "main": [
+        [
+          {
+            "node": "Mysql1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTML1": {
+      "main": [
+        [
+          {
+            "node": "Combine1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Combine1": {
+      "main": [
+        [
+          {
+            "node": "Mysql",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTML2": {
+      "main": [
+        [
+          {
+            "node": "Combine2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Combine2": {
+      "main": [
+        [
+          {
+            "node": "Mysql2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTML3": {
+      "main": [
+        [
+          {
+            "node": "Combine3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Combine3": {
+      "main": [
+        [
+          {
+            "node": "Mysql3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTML4": {
+      "main": [
+        [
+          {
+            "node": "Combine4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Combine4": {
+      "main": [
+        [
+          {
+            "node": "Mysql4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Table of Contents": {
+      "main": [
+        [
+          {
+            "node": "清除markdown残留6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Title, Intro, Chapters": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "Intro",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "DeepSeek Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Plan Topics",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "DeepSeek Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Intro",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "DeepSeek Chat Model2": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Writer",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "DeepSeek Chat Model3": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Writer1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "DeepSeek Chat Model4": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Writer2",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "DeepSeek Chat Model5": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Writer3",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "DeepSeek Chat Model6": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Writer4",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "DeepSeek Chat Model7": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Sources",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "Table of Contents",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Plan Topics",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Intro": {
+      "main": [
+        [
+          {
+            "node": "MySQL",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MySQL": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Mysql1": {
+      "main": [
+        [
+          {
+            "node": "Mysql1show",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mysql2": {
+      "main": [
+        [
+          {
+            "node": "Mysql1show3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mysql3": {
+      "main": [
+        [
+          {
+            "node": "Mysql1show4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mysql4": {
+      "main": [
+        [
+          {
+            "node": "Mysql1show5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mysql1show": {
+      "main": [
+        [
+          {
+            "node": "Merge2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mysql1show2": {
+      "main": [
+        [
+          {
+            "node": "Merge2",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Mysql": {
+      "main": [
+        [
+          {
+            "node": "Mysql1show2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mysql1show3": {
+      "main": [
+        [
+          {
+            "node": "Merge2",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    "Mysql1show4": {
+      "main": [
+        [
+          {
+            "node": "Merge2",
+            "type": "main",
+            "index": 3
+          }
+        ]
+      ]
+    },
+    "Mysql1show5": {
+      "main": [
+        [
+          {
+            "node": "Merge2",
+            "type": "main",
+            "index": 4
+          }
+        ]
+      ]
+    },
+    "Get Sources": {
+      "main": [
+        [
+          {
+            "node": "Sources",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Sources": {
+      "main": [
+        [
+          {
+            "node": "Send Sources show",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Sources show": {
+      "main": [
+        [
+          {
+            "node": "Get All Content",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get All Content": {
+      "main": [
+        [
+          {
+            "node": "Table of Contents",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send ToC": {
+      "main": [
+        [
+          {
+            "node": "Send ToC show",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send ToC show": {
+      "main": [
+        [
+          {
+            "node": "MySQL1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "MySQL2",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "MySQL3",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "MySQL4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "清除markdown残留": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "清除markdown残留1": {
+      "main": [
+        [
+          {
+            "node": "Aggregate2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "清除markdown残留2": {
+      "main": [
+        [
+          {
+            "node": "Aggregate4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "清除markdown残留3": {
+      "main": [
+        [
+          {
+            "node": "Aggregate6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "清除markdown残留4": {
+      "main": [
+        [
+          {
+            "node": "Aggregate8",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "清除markdown残留5": {
+      "main": [
+        [
+          {
+            "node": "Send Sources",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "清除markdown残留6": {
+      "main": [
+        [
+          {
+            "node": "Send ToC",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MySQL1": {
+      "main": [
+        [
+          {
+            "node": "Code5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code5": {
+      "main": [
+        [
+          {
+            "node": "章节",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate12": {
+      "main": [
+        [
+          {
+            "node": "更新翻译",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "DeepSeek Chat Model10": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "章节",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MySQL2": {
+      "main": [
+        [
+          {
+            "node": "拆分",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "章节": {
+      "main": [
+        [
+          {
+            "node": "Aggregate12",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch2": {
+      "main": [
+        [
+          {
+            "node": "Code7",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Code8",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Code11",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Code13",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Code15",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code7": {
+      "main": [
+        [
+          {
+            "node": "topic content1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "topic content1": {
+      "main": [
+        [
+          {
+            "node": "Code9",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code8": {
+      "main": [
+        [
+          {
+            "node": "topic content2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "topic content2": {
+      "main": [
+        [
+          {
+            "node": "Code10",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "DeepSeek Chat Model14": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "topic content2",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "topic content3",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "topic content4",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "topic content5",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "topic content1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code9": {
+      "main": [
+        [
+          {
+            "node": "更新翻译 ch1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code10": {
+      "main": [
+        [
+          {
+            "node": "更新翻译 ch2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code11": {
+      "main": [
+        [
+          {
+            "node": "topic content3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "topic content3": {
+      "main": [
+        [
+          {
+            "node": "Code12",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code12": {
+      "main": [
+        [
+          {
+            "node": "更新翻译 ch3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code13": {
+      "main": [
+        [
+          {
+            "node": "topic content4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "topic content4": {
+      "main": [
+        [
+          {
+            "node": "Code14",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code14": {
+      "main": [
+        [
+          {
+            "node": "更新翻译 ch4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code15": {
+      "main": [
+        [
+          {
+            "node": "topic content5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "topic content5": {
+      "main": [
+        [
+          {
+            "node": "Code16",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Code16": {
+      "main": [
+        [
+          {
+            "node": "更新翻译 ch5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge9": {
+      "main": [
+        [
+          {
+            "node": "Merge11",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "MySQL3": {
+      "main": [
+        [
+          {
+            "node": "补全 sources 可能会缺失闭合标签",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "DeepSeek Chat Model12": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "补全 sources 可能会缺失闭合标签",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "sources1": {
+      "main": [
+        [
+          {
+            "node": "更新翻译1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "DeepSeek Chat Model13": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "翻译 toc(目录)",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "翻译 Introduction",
+            "type": "ai_languageModel",
+            "index": 0
+          },
+          {
+            "node": "翻译 title",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge10": {
+      "main": [
+        [
+          {
+            "node": "Aggregate14",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate14": {
+      "main": [
+        [
+          {
+            "node": "更新翻译2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MySQL4": {
+      "main": [
+        [
+          {
+            "node": "翻译 title",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "翻译 Introduction",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "翻译 toc(目录)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge11": {
+      "main": [
+        [
+          {
+            "node": "Aggregate10",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Combine Content1": {
+      "main": [
+        [
+          {
+            "node": "Generate PDF",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get All Content4": {
+      "main": [
+        [
+          {
+            "node": "Combine Content1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate10": {
+      "main": [
+        [
+          {
+            "node": "Get All Content4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate PDF": {
+      "main": [
+        [
+          {
+            "node": "Download PDF1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "拆分": {
+      "main": [
+        [
+          {
+            "node": "Switch2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "翻译 title": {
+      "main": [
+        [
+          {
+            "node": "Merge10",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "翻译 Introduction": {
+      "main": [
+        [
+          {
+            "node": "Merge10",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "翻译 toc(目录)": {
+      "main": [
+        [
+          {
+            "node": "Merge10",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    "更新翻译": {
+      "main": [
+        [
+          {
+            "node": "Merge11",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "更新翻译1": {
+      "main": [
+        [
+          {
+            "node": "Merge11",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    "更新翻译2": {
+      "main": [
+        [
+          {
+            "node": "Merge11",
+            "type": "main",
+            "index": 3
+          }
+        ]
+      ]
+    },
+    "更新翻译 ch1": {
+      "main": [
+        [
+          {
+            "node": "Merge9",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "更新翻译 ch2": {
+      "main": [
+        [
+          {
+            "node": "Merge9",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "更新翻译 ch3": {
+      "main": [
+        [
+          {
+            "node": "Merge9",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    },
+    "更新翻译 ch4": {
+      "main": [
+        [
+          {
+            "node": "Merge9",
+            "type": "main",
+            "index": 3
+          }
+        ]
+      ]
+    },
+    "更新翻译 ch5": {
+      "main": [
+        [
+          {
+            "node": "Merge9",
+            "type": "main",
+            "index": 4
+          }
+        ]
+      ]
+    },
+    "补全 sources 可能会缺失闭合标签": {
+      "main": [
+        [
+          {
+            "node": "sources1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "002d3f23-3fae-4f5a-84a3-00a545694e47",
+  "meta": {
+    "instanceId": "885b201d637fb5849015d3453abe90c207d9353491b1ece79fe86028347cd734"
+  },
+  "id": "aMnNiLptVfJpxfU9",
+  "tags": []
+}
